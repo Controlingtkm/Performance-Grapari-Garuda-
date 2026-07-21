@@ -616,11 +616,11 @@ export default function App() {
               
               {/* Brand Logo */}
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center p-1.5 shadow-xs">
+                <div className="w-8 h-8 flex items-center justify-center shadow-xs">
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Telkomsel_2021_icon.svg" 
                     alt="Telkomsel Logo" 
-                    className="w-full h-full object-contain invert brightness-0"
+                    className="w-full h-full object-contain"
                     referrerPolicy="no-referrer"
                   />
                 </div>
