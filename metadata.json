@@ -1,0 +1,6 @@
+{
+  "name": "Dashboard Achievement Grapari Garuda",
+  "description": "Enterprise-grade performance and KPI achievement dashboard for Grapari Garuda customer service and FOS teams.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

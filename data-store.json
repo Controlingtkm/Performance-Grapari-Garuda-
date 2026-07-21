@@ -1,0 +1,436 @@
+{
+  "users": [
+    {
+      "id": "user-admin",
+      "username": "admin",
+      "passwordHash": "admin123",
+      "role": "Admin",
+      "name": "Admin",
+      "nik": "000001",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
+    },
+    {
+      "id": "user-tl",
+      "username": "leader",
+      "passwordHash": "leader123",
+      "role": "Team Leader",
+      "name": "Yunisel Rachmil",
+      "nik": "223457",
+      "photo": "/src/assets/images/yunisel_avatar_1784641085038.jpg"
+    },
+    {
+      "id": "user-cs",
+      "username": "cs",
+      "passwordHash": "cs123",
+      "role": "Customer Service",
+      "name": "Siti Rahma",
+      "nik": "GG-00511",
+      "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200"
+    },
+    {
+      "id": "user-fos",
+      "username": "fos",
+      "passwordHash": "fos123",
+      "role": "FOS",
+      "name": "Eko Wijaya",
+      "nik": "GG-00788",
+      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
+    }
+  ],
+  "kpi_cs": [
+    {
+      "id": "cs-1",
+      "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+      "name": "Siti Rahma",
+      "nik": "GG-00511",
+      "sales": 145,
+      "productivity": 98,
+      "attendance": 100,
+      "roleplay": 92,
+      "achievement": 98.4,
+      "notes": "Outstanding compliance score in monthly audit. Active contributor to Telkomsel Halo migrations.",
+      "ranking": 1,
+      "progress": 98,
+      "target": 150,
+      "status": "Excellent"
+    },
+    {
+      "id": "cs-2",
+      "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150",
+      "name": "Amalia Siregar",
+      "nik": "GG-00512",
+      "sales": 132,
+      "productivity": 95,
+      "attendance": 98,
+      "roleplay": 90,
+      "achievement": 94.6,
+      "notes": "High conversion rate on Indihome package speed upgrades.",
+      "ranking": 2,
+      "progress": 88,
+      "target": 150,
+      "status": "Excellent"
+    },
+    {
+      "id": "cs-3",
+      "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150",
+      "name": "Dian Nugraha",
+      "nik": "GG-00513",
+      "sales": 120,
+      "productivity": 92,
+      "attendance": 96,
+      "roleplay": 88,
+      "achievement": 91.2,
+      "notes": "Consistent daily attendance and high ticket resolution speed.",
+      "ranking": 3,
+      "progress": 80,
+      "target": 150,
+      "status": "Good"
+    },
+    {
+      "id": "cs-4",
+      "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150",
+      "name": "Rian Pratama",
+      "nik": "GG-00514",
+      "sales": 115,
+      "productivity": 89,
+      "attendance": 95,
+      "roleplay": 85,
+      "achievement": 87.5,
+      "notes": "Needs to pitch Telkomsel Orbit product add-ons more consistently during billing queries.",
+      "ranking": 4,
+      "progress": 76,
+      "target": 150,
+      "status": "Good"
+    },
+    {
+      "id": "cs-5",
+      "photo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150",
+      "name": "Kartika Sari",
+      "nik": "GG-00515",
+      "sales": 98,
+      "productivity": 85,
+      "attendance": 92,
+      "roleplay": 80,
+      "achievement": 79.8,
+      "notes": "Good service level, though sales volume requires coaching in week 4.",
+      "ranking": 5,
+      "progress": 65,
+      "target": 150,
+      "status": "Needs Improvement"
+    },
+    {
+      "id": "cs-6",
+      "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=150",
+      "name": "Faisal Akbar",
+      "nik": "GG-00516",
+      "sales": 72,
+      "productivity": 80,
+      "attendance": 90,
+      "roleplay": 78,
+      "achievement": 68.2,
+      "notes": "Coaching plan initiated for product knowledge of Indihome high-speed packages.",
+      "ranking": 6,
+      "progress": 48,
+      "target": 150,
+      "status": "Critical"
+    }
+  ],
+  "kpi_fos": [
+    {
+      "id": "fos-1",
+      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
+      "name": "Eko Wijaya",
+      "nik": "GG-00788",
+      "monitoringTicket": 164,
+      "inSla": 159,
+      "outSla": 5,
+      "achievement": 96.9,
+      "notes": "Outstanding technical diagnostic capability. Very low escalations rate.",
+      "ranking": 1,
+      "status": "Excellent"
+    },
+    {
+      "id": "fos-2",
+      "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=150",
+      "name": "Yudi Hartono",
+      "nik": "GG-00789",
+      "monitoringTicket": 152,
+      "inSla": 145,
+      "outSla": 7,
+      "achievement": 95.3,
+      "notes": "Excellent team communication. Resolves complex optical line issues swiftly.",
+      "ranking": 2,
+      "status": "Excellent"
+    },
+    {
+      "id": "fos-3",
+      "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=150",
+      "name": "Heri Kusuma",
+      "nik": "GG-00790",
+      "monitoringTicket": 140,
+      "inSla": 130,
+      "outSla": 10,
+      "achievement": 92.8,
+      "notes": "Consistently completes outdoor client installations on target time.",
+      "ranking": 3,
+      "status": "Good"
+    },
+    {
+      "id": "fos-4",
+      "photo": "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&q=80&w=150",
+      "name": "Andi Wijaya",
+      "nik": "GG-00791",
+      "monitoringTicket": 125,
+      "inSla": 112,
+      "outSla": 13,
+      "achievement": 89.6,
+      "notes": "Solid effort on ticket diagnostic reporting. Needs improvement on paperwork turnaround.",
+      "ranking": 4,
+      "status": "Good"
+    },
+    {
+      "id": "fos-5",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150",
+      "name": "Budi Utomo",
+      "nik": "GG-00792",
+      "monitoringTicket": 110,
+      "inSla": 95,
+      "outSla": 15,
+      "achievement": 86.3,
+      "notes": "A bit behind SLA on fiber line activations in regional sub-zones.",
+      "ranking": 5,
+      "status": "Needs Improvement"
+    }
+  ],
+  "monitoring": [
+    {
+      "id": "mon-1",
+      "type": "Indihome",
+      "customerName": "Yusuf Maulana",
+      "csName": "Siti Rahma",
+      "nik": "GG-00511",
+      "msisdn": "081122334455",
+      "indihomeNumber": "122345678901",
+      "complaint": "LOS Red Light blinking on ONT Router. Customer unable to access the internet.",
+      "ticketNumber": "IN-2026-0711",
+      "sla": 4,
+      "category": "Technical",
+      "status": "In Progress",
+      "notes": "FOS technician dispatch assigned to main distribution cabinet subzone-2.",
+      "createdDate": "2026-07-19T06:00:00Z",
+      "updatedDate": "2026-07-19T07:30:00Z"
+    },
+    {
+      "id": "mon-2",
+      "type": "Indihome",
+      "customerName": "Siti Handayani",
+      "csName": "Amalia Siregar",
+      "nik": "GG-00512",
+      "msisdn": "081298765432",
+      "indihomeNumber": "122345678902",
+      "complaint": "Billing mismatch. Promotional package speed-boost of 100Mbps not reflected in active invoice.",
+      "ticketNumber": "IN-2026-0712",
+      "sla": 22,
+      "category": "Billing",
+      "status": "Open",
+      "notes": "Requires Finance escalation for manual adjustment adjustment of credit note.",
+      "createdDate": "2026-07-19T07:15:00Z",
+      "updatedDate": "2026-07-19T07:15:00Z"
+    },
+    {
+      "id": "mon-3",
+      "type": "Indihome",
+      "customerName": "Agus Salim",
+      "csName": "Dian Nugraha",
+      "nik": "GG-00513",
+      "msisdn": "082155667788",
+      "indihomeNumber": "122345678903",
+      "complaint": "Request for New Activation (PSB) Indihome Fiber 50Mbps at Griya Asri block D/12.",
+      "ticketNumber": "IN-2026-0713",
+      "sla": 12,
+      "category": "New Activation",
+      "status": "Resolved",
+      "notes": "Successfully installed, tested ping and speed, customer signed digital activation form.",
+      "createdDate": "2026-07-18T09:00:00Z",
+      "updatedDate": "2026-07-19T04:30:00Z"
+    },
+    {
+      "id": "mon-4",
+      "type": "Telkomsel",
+      "customerName": "Rina Wijaya",
+      "csName": "Siti Rahma",
+      "nik": "GG-00511",
+      "msisdn": "081199001122",
+      "indihomeNumber": "-",
+      "complaint": "Prepaid SIM Card recovery required. Lost physical phone, requesting upgrade to eSIM eSIM profile.",
+      "ticketNumber": "TS-2026-101",
+      "sla": 1,
+      "category": "Product Modification",
+      "status": "In Progress",
+      "notes": "ID card validated. QR profile generation running in Telkomsel Provisioning portal.",
+      "createdDate": "2026-07-19T07:00:00Z",
+      "updatedDate": "2026-07-19T07:45:00Z"
+    },
+    {
+      "id": "mon-5",
+      "type": "Telkomsel",
+      "customerName": "Devi Puspita",
+      "csName": "Rian Pratama",
+      "nik": "GG-00514",
+      "msisdn": "081344556677",
+      "indihomeNumber": "-",
+      "complaint": "Telkomsel Halo postpaid registration stuck on pending status due to old credit history check.",
+      "ticketNumber": "TS-2026-102",
+      "sla": -2,
+      "category": "Billing",
+      "status": "Escalated",
+      "notes": "Risk management system review required. Forwarded to Head Office Credit scoring desk.",
+      "createdDate": "2026-07-18T10:00:00Z",
+      "updatedDate": "2026-07-19T02:00:00Z"
+    },
+    {
+      "id": "mon-6",
+      "type": "Telkomsel",
+      "customerName": "Rudi Hermawan",
+      "csName": "Siti Rahma",
+      "nik": "GG-00511",
+      "msisdn": "081288990011",
+      "indihomeNumber": "-",
+      "complaint": "Poor signal reception (3G/4G/5G dropping) at Office Complex Central Jakarta area.",
+      "ticketNumber": "TS-2026-103",
+      "sla": 48,
+      "category": "Network Issue",
+      "status": "Open",
+      "notes": "Referred to RF Engineering department for regional cell site verification.",
+      "createdDate": "2026-07-19T08:00:00Z",
+      "updatedDate": "2026-07-19T08:00:00Z"
+    }
+  ],
+  "templates": [
+    {
+      "id": "tpl-1",
+      "title": "Ganti Kartu Telkomsel (Lost/Upgrade)",
+      "category": "Customer Service",
+      "usageCount": 452,
+      "isFavorite": true,
+      "content": "Yth. Pelanggan Telkomsel,\n\nBerikut adalah data penggantian kartu baru Anda di Grapari Garuda:\nNama Pelanggan: {customerName}\nNomor MSISDN: {msisdn}\nNomor Serial Card Baru: {serialNumber}\nAlasan: {reason} (Ganti Kartu / Upgrade 4G ke 5G)\n\nProses verifikasi biometrik dan kelengkapan identitas (E-KTP) telah dinyatakan valid. Kartu baru akan aktif secara otomatis dalam waktu maksimal 15-30 menit. Silakan restart perangkat Anda secara berkala.\n\nJika terdapat kendala lebih lanjut, silakan hubungi asisten virtual Veronika atau kunjungi Grapari terdekat. Terimakasih telah menggunakan layanan Telkomsel."
+    },
+    {
+      "id": "tpl-2",
+      "title": "Reaktivasi Kartu Hangus",
+      "category": "Customer Service",
+      "usageCount": 389,
+      "isFavorite": true,
+      "content": "Yth. Pelanggan Telkomsel,\n\nPengajuan REAKTIVASI kartu hangus Anda telah kami terima dan sukses diproses:\nNomor Pelanggan: {msisdn}\nNama Registrasi: {customerName}\nTipe Kartu: Prabayar (Re-Activated)\n\nKartu Anda telah diaktifkan kembali secara langsung. Silakan isi ulang pulsa atau paket internet minimal Rp 10.000 dalam waktu 1x24 jam untuk memperpanjang masa aktif baru dan mencegah kartu hangus kembali.\n\nTerimakasih atas kepercayaan Anda terhadap layanan Telkomsel Grapari Garuda."
+    },
+    {
+      "id": "tpl-3",
+      "title": "PSB (Pasang Baru) Indihome Fiber",
+      "category": "Indihome",
+      "usageCount": 298,
+      "isFavorite": false,
+      "content": "Kepada Yth. {customerName},\n\nKonfirmasi Registrasi Pasang Baru (PSB) Indihome Fiber:\nNomor Registrasi: REG-{ticketNumber}\nPaket Pilihan: Indihome Dual Play {packageSpeed} Mbps\nAlamat Instalasi: {customerAddress}\nNomor Kontak: {msisdn}\n\nPetugas FOS Grapari Garuda akan menjadwalkan kunjungan instalasi ke lokasi Anda pada tanggal {installationDate}. Mohon pastikan ada perwakilan dewasa di lokasi saat penarikan kabel fiber optik dan pemasangan ONT modem router.\n\nTerimakasih telah memilih Indihome - Aktivitas Tanpa Batas!"
+    },
+    {
+      "id": "tpl-4",
+      "title": "Penerimaan Keluhan Teknis Indihome",
+      "category": "Indihome",
+      "usageCount": 612,
+      "isFavorite": true,
+      "content": "Yth. Pelanggan Indihome,\n\nKami sampaikan laporan penanganan kendala teknis jaringan internet Anda:\nNomor Tiket: {ticketNumber}\nNomor Layanan: {indihomeNumber}\nNama Pelanggan: {customerName}\nJenis Keluhan: {complaint}\n\nLaporan Anda telah diteruskan ke tim teknis lapangan (FOS) Grapari Garuda dengan SLA penanganan maksimal 3x24 jam. Anda dapat memantau status perbaikan ini melalui aplikasi MyIndihome. Mohon maaf atas ketidaknyamanan Anda.\n\nTerimakasih atas pengertian dan kerjasamanya."
+    },
+    {
+      "id": "tpl-5",
+      "title": "Ganti Paket (Upgrade Speed) Indihome",
+      "category": "Indihome",
+      "usageCount": 215,
+      "isFavorite": false,
+      "content": "Yth. Pelanggan Indihome,\n\nKonfirmasi perubahan paket / upgrade kecepatan layanan Indihome Anda:\nNomor Layanan: {indihomeNumber}\nNama Pelanggan: {customerName}\nPaket Awal: {oldSpeed} Mbps\nPaket Baru: {newSpeed} Mbps\nTarif Bulanan Baru: Rp {newPrice} (belum termasuk PPN 11%)\n\nPerubahan profil kecepatan internet Anda telah dilakukan dari pusat dan langsung aktif hari ini. Tagihan baru akan dihitung secara proporsional (prorata) pada siklus penagihan berikutnya.\n\nTerimakasih telah mempercayakan hiburan keluarga Anda bersama Indihome."
+    }
+  ],
+  "knowledge": [
+    {
+      "id": "kn-1",
+      "title": "SOP Penanganan Gangguan LOS Merah Indihome",
+      "category": "Indihome",
+      "type": "SOP",
+      "tags": [
+        "LOS",
+        "Red Light",
+        "ONT",
+        "Router",
+        "FOS"
+      ],
+      "content": "### SOP Penanganan Gangguan LOS Merah Kedip di Modem ONT Indihome\n\nIndikator lampu LOS berkedip merah menandakan hilangnya pasokan sinyal cahaya fiber optik dari ODP (Optical Distribution Point) ke ONT (Optical Network Terminal) pelanggan.\n\n#### Langkah 1: Diagnostik Awal CS (Customer Service)\n1. Tanyakan status lampu indikator di modem pelanggan. Konfirmasi apakah lampu **LOS** berkedip merah dan lampu **PON** mati total.\n2. Lakukan pengecekan redaman sinyal secara remote melalui portal **U-See** / **Net-Care**. Jika status `Unreachable` atau redaman melebihi `-28 dBm`, teruskan tiket ke lapangan.\n3. Konfirmasi apakah ada konstruksi jalan, galian pipa, atau pohon tumbang di sekitar rumah pelanggan.\n\n#### Langkah 2: Panduan Tindakan FOS (Field Operations)\n1. Periksa kabel dropcore (kabel hitam) dari rumah pelanggan hingga ke tiang ODP terdekat. Cari tekukan tajam (macro-bending) atau kabel putus.\n2. Lakukan pembersihan konektor SC/UPC atau SC/APC di ONT dan ODP menggunakan alkohol 99% dan tisu fiber.\n3. Ukur redaman sinyal menggunakan **OPM (Optical Power Meter)**. Target standard redaman adalah **-18 dBm s/d -24 dBm**.\n4. Jika redaman tetap nihil, cari slot port alternatif pada ODP. Laporkan penugasan ke tim Core Network untuk penarikan ulang kabel jika port rusak."
+    },
+    {
+      "id": "kn-2",
+      "title": "Flow Proses Reaktivasi Kartu Telkomsel Hangus (Prabayar)",
+      "category": "Telkomsel",
+      "type": "Flow",
+      "tags": [
+        "Reaktivasi",
+        "Hangus",
+        "Prabayar",
+        "E-KTP",
+        "Validasi"
+      ],
+      "content": "### Alur Kerja (Flow) Reaktivasi Kartu Prabayar Hangus di Grapari\n\nReaktivasi kartu yang melewati masa tenggang (hangus/expired) wajib mengikuti aturan regulasi BRTI terbaru untuk perlindungan data pelanggan.\n\n#### Flow Penanganan di Counter CS:\n1. **Penerimaan & Verifikasi**: Pelanggan datang membawa fisik E-KTP asli dan kartu SIM fisik yang hangus.\n2. **Pengecekan Database**: Masukkan nomor MSISDN ke portal **Grapari Point (GP)**. Pastikan status nomor berada dalam siklus \"Masa Hangus / Grace Period 2\" (maksimal 60 hari sejak masa tenggang berakhir). Jika lewat dari 60 hari, nomor tidak dapat direaktivasi secara mandiri dan masuk ke pool recycle nasional.\n3. **Validasi Biometrik**: Pelanggan melakukan pemindaian sidik jari menggunakan E-KTP reader untuk pencocokan data Dukcapil.\n4. **Pengisian Formulir Digital**: Pelanggan mengisi kesediaan mengaktifkan kembali nomor dengan melampirkan foto selfie memegang E-KTP.\n5. **Provisioning Sistem**: CS menekan tombol `Re-Activate` di sistem internal. Sistem mengirim perintah provisi baru ke HLR (Home Location Register).\n6. **Edukasi Masa Aktif**: Jelaskan kepada pelanggan bahwa kartu wajib diisi pulsa minimal Rp 10.000 atau paket dalam 1x24 jam pertama agar tidak hangus permanen."
+    },
+    {
+      "id": "kn-3",
+      "title": "Script Edukasi Migrasi Prabayar ke Postpaid (Telkomsel Halo)",
+      "category": "Telkomsel",
+      "type": "Script",
+      "tags": [
+        "Postpaid",
+        "Halo",
+        "Migrasi",
+        "Sales",
+        "CS"
+      ],
+      "content": "### Script Edukasi & Penawaran Migrasi Prabayar ke Pascabayar (Telkomsel Halo)\n\nGunakan script ini saat pelanggan prabayar datang melakukan pengaduan pulsa tersedot, kuota habis cepat, atau upgrade kartu 4G/5G.\n\n#### Bagian 1: Pembuka & Identifikasi Kebutuhan\n* \"Selamat pagi/siang Bapak/Ibu [Nama Pelanggan]. Selagi saya memproses permintaan upgrade kartu Anda, bolehkah saya tahu rata-rata pengisian pulsa dan kuota internet Bapak/Ibu setiap bulannya?\"\n* *(Dengarkan jawaban pelanggan. Jika pengeluaran rata-rata > Rp 80.000/bulan, lanjutkan ke penawaran).*\n\n#### Bagian 2: Memaparkan Benefit Utama (Value Proposition)\n* \"Melihat pola penggunaan Bapak/Ibu yang sangat aktif, sebenarnya layanan **Telkomsel Halo** akan jauh lebih hemat dan praktis. Dengan pengeluaran yang sama, Bapak/Ibu sudah mendapatkan kuota yang 2x lipat lebih besar, bebas nelepon ke semua operator, dan tidak perlu repot isi pulsa setiap minggu.\"\n* \"Ditambah lagi, nomor Bapak/Ibu yang sekarang **tetap sama**, sisa pulsa saat ini akan langsung memotong tagihan bulan pertama, dan seluruh kontak serta riwayat WhatsApp tidak ada yang berubah.\"\n\n#### Bagian 3: Penawaran Paket Unggulan\n* \"Saat ini kami sedang ada promo spesial paket **Halo+ 100GB** seharga Rp 100.000 nett per bulan. Sudah termasuk langganan Disney+ Hotstar dan Prime Video gratis selama 3 bulan pertama. Proses migrasinya hanya membutuhkan waktu 5 menit saja tanpa ganti kartu baru.\"\n\n#### Bagian 4: Menangani Keberatan (Handling Objection)\n* *Keberatan: \"Takut tagihannya jebol/melebihi budget.\"*\n* *Jawaban*: \"Bapak/Ibu tidak perlu khawatir, karena kami memiliki fitur **Limit Control**. Kami bisa pasang batas pengeluaran maksimal tepat di angka Rp 100.000. Jadi tagihan dijamin tidak akan pernah melebihi limit tersebut secara otomatis.\""
+    }
+  ],
+  "activity_logs": [
+    {
+      "id": "log-1",
+      "timestamp": "2026-07-19T07:55:00Z",
+      "user": "Haris Muhammad",
+      "role": "Admin",
+      "action": "USER_LOGIN",
+      "details": "Admin logged in from IP 192.168.1.51"
+    },
+    {
+      "id": "log-2",
+      "timestamp": "2026-07-19T07:45:00Z",
+      "user": "Siti Rahma",
+      "role": "Customer Service",
+      "action": "UPDATE_MONITORING",
+      "details": "Updated ticket TS-2026-101 status to \"In Progress\" for customer Rina Wijaya"
+    },
+    {
+      "id": "log-3",
+      "timestamp": "2026-07-19T06:30:00Z",
+      "user": "Yunisel Rachmil",
+      "role": "Team Leader",
+      "action": "IMPORT_KPI_CS",
+      "details": "Imported monthly KPI Excel file with 6 active records"
+    },
+    {
+      "id": "log-4",
+      "timestamp": "2026-07-19T05:12:00Z",
+      "user": "Eko Wijaya",
+      "role": "FOS",
+      "action": "RESOLVE_MONITORING",
+      "details": "Resolved Indihome ticket IN-2026-0713 for customer Agus Salim"
+    }
+  ],
+  "settings": {
+    "theme": "light",
+    "googleSheetUrl": "",
+    "appsScriptUrl": "",
+    "logoUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=150",
+    "companyName": "Grapari Garuda Indonesia"
+  }
+}
