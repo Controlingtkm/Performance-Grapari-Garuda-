@@ -453,26 +453,49 @@ ${localKnowledgeContext}`;
       const contents: any[] = [];
       if (chatHistory && Array.isArray(chatHistory)) {
         chatHistory.forEach(msg => {
-          contents.push({
-            role: msg.role === 'user' ? 'user' : 'model',
-            parts: [{ text: msg.content }]
-          });
+          const role = msg.role === 'user' ? 'user' : 'model';
+          if (contents.length > 0 && contents[contents.length - 1].role === role) {
+            contents[contents.length - 1].parts[0].text += `\n\n${msg.content}`;
+          } else {
+            contents.push({
+              role,
+              parts: [{ text: msg.content }]
+            });
+          }
         });
       }
       
-      contents.push({
-        role: 'user',
-        parts: [{ text: prompt }]
-      });
+      const currentRole = 'user';
+      if (contents.length > 0 && contents[contents.length - 1].role === currentRole) {
+        contents[contents.length - 1].parts[0].text += `\n\n${prompt}`;
+      } else {
+        contents.push({
+          role: currentRole,
+          parts: [{ text: prompt }]
+        });
+      }
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.5-flash',
-        contents,
-        config: {
-          systemInstruction,
-          temperature: 0.7,
-        }
-      });
+      let response;
+      try {
+        response = await ai.models.generateContent({
+          model: 'gemini-3.5-flash',
+          contents,
+          config: {
+            systemInstruction,
+            temperature: 0.7,
+          }
+        });
+      } catch (firstErr: any) {
+        console.warn('Primary model (gemini-3.5-flash) failed or busy. Falling back to gemini-flash-latest...', firstErr);
+        response = await ai.models.generateContent({
+          model: 'gemini-flash-latest',
+          contents,
+          config: {
+            systemInstruction,
+            temperature: 0.7,
+          }
+        });
+      }
 
       res.json({ response: response.text });
     } catch (err: any) {
