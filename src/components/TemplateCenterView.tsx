@@ -56,6 +56,7 @@ export default function TemplateCenterView({
   const [complaint, setComplaint] = useState('');
 
   // 2. Ganti Paket States
+  const [gpType, setGpType] = useState<'halo' | 'indihome'>('halo');
   const [gpLayanan, setGpLayanan] = useState('');
   const [gpNama, setGpNama] = useState('');
   const [gpTtl, setGpTtl] = useState('');
@@ -114,7 +115,7 @@ Nama Lengkap    : ${gpNama.toUpperCase() || '___________'}
 Tempat/Tgl Lahir: ${gpTtl || '___________'}
 Nomor Layanan   : ${gpLayanan || '___________'}
 
-Menyatakan bahwa memahami syarat ketentuan dan bertanggung jawab penuh terkait proses Perubahan paket Telkomsel IndiHome nomor layanan ${gpLayanan || '_______'} dari paket sebelumnya [ ${gpPaketLama || '________'} ] menjadi [ ${gpPaketBaru || '________'} ] dengan alasan: ${gpAlasan || '________'}.
+Menyatakan bahwa memahami syarat ketentuan dan bertanggung jawab penuh terkait proses Perubahan paket ${gpType === 'halo' ? 'PSB Halo' : 'PSB IndiHome'} nomor layanan ${gpLayanan || '_______'} dari paket sebelumnya [ ${gpPaketLama || '________'} ] menjadi [ ${gpPaketBaru || '________'} ] dengan alasan: ${gpAlasan || '________'}.
 
 Saya membebaskan PT. Telkomsel dari segala tuntutan atas nomor layanan ini jika terdapat ketidaksesuaian atas proses ini di kemudian hari.
 
@@ -133,29 +134,29 @@ Saya menjamin seluruh data identitas yang diberikan adalah sah dan benar, serta 
 
 Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`;
 
-  const compiledTelkomselHalo = `SURAT PERNYATAAN REGISTRASI/MIGRASI TELKOMSEL HALO
+  const compiledTelkomselHalo = `SURAT PERNYATAAN REGISTRASI/MIGRASI PSB HALO
 --------------------------------------------------
 Saya yang bertanda tangan di bawah ini:
 Nama Lengkap    : ${haloNama.toUpperCase() || '___________'}
 Nomor NIK       : ${haloNik || '___________'}
 Nomor MSISDN    : ${haloMsisdn || '___________'}
 
-Menyatakan setuju untuk melakukan migrasi / pendaftaran baru layanan pascabayar Telkomsel Halo dengan paket yang dipilih yaitu: ${haloPaket || '___________'}.
+Menyatakan setuju untuk melakukan migrasi / pendaftaran baru layanan pascabayar PSB Halo dengan paket yang dipilih yaitu: ${haloPaket || '___________'}.
 
 Saya memahami skema penagihan berkala dan berkomitmen untuk melunasi seluruh kewajiban pembayaran tagihan bulanan sesuai dengan ketentuan tarif yang berlaku.
 
 Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`;
 
-  const compiledIndiHome = `SURAT PERNYATAAN LAYANAN BARU/PENYESUAIAN INDIHOME
+  const compiledIndiHome = `SURAT PERNYATAAN LAYANAN BARU/PENYESUAIAN PSB INDIHOME
 --------------------------------------------------
 Saya yang bertanda tangan di bawah ini:
 Nama Lengkap    : ${ihNama.toUpperCase() || '___________'}
 Tempat/Tgl Lahir: ${ihTtl || '___________'}
 Nomor Layanan   : ${ihLayanan || '___________'}
 
-Mengajukan permohonan penyesuaian atau aktivasi baru layanan IndiHome dengan paket pilihan yaitu: ${ihPaket || '___________'} karena alasan: ${ihAlasan || '___________'}.
+Mengajukan permohonan penyesuaian atau aktivasi baru layanan PSB IndiHome dengan paket pilihan yaitu: ${ihPaket || '___________'} karena alasan: ${ihAlasan || '___________'}.
 
-Saya menyatakan tunduk pada kontrak berlangganan IndiHome dan bersedia mematuhi semua regulasi yang berlaku.
+Saya menyatakan tunduk pada kontrak berlangganan PSB IndiHome dan bersedia mematuhi semua regulasi yang berlaku.
 
 Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`;
 
@@ -261,6 +262,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
         setComplaint('');
         break;
       case 'ganti_paket':
+        setGpType('halo');
         setGpLayanan('');
         setGpNama('');
         setGpTtl('');
@@ -424,18 +426,18 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
             </div>
             <div>
               <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
-                {activeFormTab === 'ganti_paket' && 'Eform Ganti Paket Telkomsel IndiHome'}
+                {activeFormTab === 'ganti_paket' && 'Eform Ganti Paket'}
                 {activeFormTab === 'ganti_kartu' && 'Eform Ganti Kartu Telkomsel'}
-                {activeFormTab === 'halo' && 'Eform Registrasi/Migrasi Telkomsel Halo'}
-                {activeFormTab === 'indihome' && 'Eform Aktivasi/Penyesuaian IndiHome'}
+                {activeFormTab === 'halo' && 'Eform Registrasi/Migrasi PSB Halo'}
+                {activeFormTab === 'indihome' && 'Eform Aktivasi/Penyesuaian PSB IndiHome'}
                 {activeFormTab === 'terminasi' && 'Eform Terminasi Layanan (Berhenti)'}
                 {activeFormTab === 'keluhan' && 'Generator Laporan Keluhan Pelanggan'}
               </h3>
               <p className="text-[11px] text-gray-400">
                 {activeFormTab === 'ganti_paket' && 'Generator pernyataan perubahan paket · otomatis update saat mengetik'}
                 {activeFormTab === 'ganti_kartu' && 'Generator pernyataan kepemilikan & ganti kartu fisik · otomatis update saat mengetik'}
-                {activeFormTab === 'halo' && 'Generator pernyataan migrasi/registrasi kartu pascabayar Halo · otomatis update saat mengetik'}
-                {activeFormTab === 'indihome' && 'Generator syarat kontrak penyesuaian/aktivasi layanan · otomatis update saat mengetik'}
+                {activeFormTab === 'halo' && 'Generator pernyataan migrasi/registrasi PSB Halo · otomatis update saat mengetik'}
+                {activeFormTab === 'indihome' && 'Generator syarat kontrak penyesuaian/aktivasi layanan PSB IndiHome · otomatis update saat mengetik'}
                 {activeFormTab === 'terminasi' && 'Generator permohonan pemutusan/terminasi permanen layanan · otomatis update saat mengetik'}
                 {activeFormTab === 'keluhan' && 'Generator draf aduan gangguan pelanggan terstruktur · otomatis update saat mengetik'}
               </p>
@@ -457,8 +459,8 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
           {[
             { id: 'ganti_paket', label: 'Ganti Paket' },
             { id: 'ganti_kartu', label: 'Ganti Kartu' },
-            { id: 'halo', label: 'Telkomsel Halo' },
-            { id: 'indihome', label: 'IndiHome' },
+            { id: 'halo', label: 'PSB Halo' },
+            { id: 'indihome', label: 'PSB IndiHome' },
             { id: 'terminasi', label: 'Terminasi' },
             { id: 'keluhan', label: 'Laporan Keluhan' }
           ].map((tab) => (
@@ -574,13 +576,38 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
 
             {activeFormTab === 'ganti_paket' && (
               <div className="space-y-4">
+                <div className="flex gap-4 p-3 bg-gray-50/50 dark:bg-zinc-900/30 rounded-xl border border-gray-100 dark:border-zinc-900">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center">Opsi Ganti Paket:</span>
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
+                    <input 
+                      type="radio" 
+                      name="gpType" 
+                      checked={gpType === 'halo'} 
+                      onChange={() => setGpType('halo')}
+                      className="text-red-500 focus:ring-red-500 h-3.5 w-3.5"
+                    />
+                    <span>Halo</span>
+                  </label>
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
+                    <input 
+                      type="radio" 
+                      name="gpType" 
+                      checked={gpType === 'indihome'} 
+                      onChange={() => setGpType('indihome')}
+                      className="text-red-500 focus:ring-red-500 h-3.5 w-3.5"
+                    />
+                    <span>IndiHome</span>
+                  </label>
+                </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Nomor Layanan IndiHome</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                    {gpType === 'halo' ? 'Nomor MSISDN / Layanan Halo' : 'Nomor Layanan IndiHome'}
+                  </label>
                   <input 
                     type="text"
                     value={gpLayanan}
                     onChange={(e) => setGpLayanan(e.target.value)}
-                    placeholder="Contoh: 122345678901"
+                    placeholder={gpType === 'halo' ? 'Contoh: 08112345678' : 'Contoh: 122345678901'}
                     className="w-full px-3.5 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-xl bg-white/40 dark:bg-zinc-900/40 outline-none focus:ring-1 focus:ring-red-500"
                   />
                 </div>
@@ -606,22 +633,26 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Paket Lama IndiHome</label>
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                      {gpType === 'halo' ? 'Paket Lama Halo' : 'Paket Lama IndiHome'}
+                    </label>
                     <input 
                       type="text"
                       value={gpPaketLama}
                       onChange={(e) => setGpPaketLama(e.target.value)}
-                      placeholder="Contoh: IndiHome 2P 30 Mbps"
+                      placeholder={gpType === 'halo' ? 'Contoh: Halo Kick 100K' : 'Contoh: IndiHome 2P 30 Mbps'}
                       className="w-full px-3.5 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-xl bg-white/40 dark:bg-zinc-900/40 outline-none focus:ring-1 focus:ring-red-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Paket Baru IndiHome</label>
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">
+                      {gpType === 'halo' ? 'Paket Baru Halo' : 'Paket Baru IndiHome'}
+                    </label>
                     <input 
                       type="text"
                       value={gpPaketBaru}
                       onChange={(e) => setGpPaketBaru(e.target.value)}
-                      placeholder="Contoh: IndiHome 3P 50 Mbps"
+                      placeholder={gpType === 'halo' ? 'Contoh: Halo Unlimited 150K' : 'Contoh: IndiHome 3P 50 Mbps'}
                       className="w-full px-3.5 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-xl bg-white/40 dark:bg-zinc-900/40 outline-none focus:ring-1 focus:ring-red-500"
                     />
                   </div>
@@ -717,12 +748,12 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Paket Halo yang Dipilih</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Paket PSB Halo yang Dipilih</label>
                   <input 
                     type="text"
                     value={haloPaket}
                     onChange={(e) => setHaloPaket(e.target.value)}
-                    placeholder="Contoh: Halo Unlimited 100K"
+                    placeholder="Contoh: PSB Halo Unlimited 100K"
                     className="w-full px-3.5 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-xl bg-white/40 dark:bg-zinc-900/40 outline-none focus:ring-1 focus:ring-red-500"
                   />
                 </div>
@@ -732,7 +763,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
             {activeFormTab === 'indihome' && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Nomor Layanan IndiHome</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Nomor Layanan PSB IndiHome</label>
                   <input 
                     type="text"
                     value={ihLayanan}
@@ -762,12 +793,12 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Paket Pilihan</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Paket PSB IndiHome Pilihan</label>
                   <input 
                     type="text"
                     value={ihPaket}
                     onChange={(e) => setIhPaket(e.target.value)}
-                    placeholder="Contoh: IndiHome 3P 100 Mbps"
+                    placeholder="Contoh: PSB IndiHome 3P 100 Mbps"
                     className="w-full px-3.5 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-xl bg-white/40 dark:bg-zinc-900/40 outline-none focus:ring-1 focus:ring-red-500"
                   />
                 </div>

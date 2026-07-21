@@ -8,7 +8,15 @@ import {
   Activity, 
   CheckCircle2, 
   HelpCircle,
-  FileText
+  FileText,
+  ArrowRight,
+  BookOpen,
+  Award,
+  Terminal,
+  ArrowUpRight,
+  Check,
+  Globe,
+  X
 } from 'lucide-react';
 
 import Sidebar from './components/Sidebar';
@@ -52,6 +60,7 @@ export default function App() {
   const [passwordInput, setPasswordInput] = useState('');
   const [authError, setAuthError] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // Tab State
   const [currentTab, setCurrentTab] = useState('dashboard');
@@ -592,132 +601,312 @@ export default function App() {
       
       {/* AUTH CHECK SCREEN */}
       {!isAuthenticated ? (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-slate-100 to-slate-200 dark:from-zinc-950 dark:to-zinc-900 p-4 relative overflow-hidden">
+        <div className="min-h-screen bg-[#fafafa] dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 relative overflow-x-hidden selection:bg-red-500/10 selection:text-red-500 font-sans">
+          
+          {/* Subtle grid pattern background to look incredibly premium */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-25 pointer-events-none" />
           
           {/* Visual Background Accent Orbs */}
-          <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-red-500/10 dark:bg-red-500/5 rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-red-500/5 dark:bg-red-500/3 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-blue-500/5 dark:bg-blue-500/3 rounded-full blur-[140px] pointer-events-none" />
 
-          {/* Frosted Glass Login Wrapper */}
-          <div className="w-full max-w-md apple-glass rounded-apple p-8 border border-white/50 dark:border-zinc-800/80 shadow-2xl relative z-10 animate-fade-in text-center">
+          {/* Premium Header/Navigation Bar */}
+          <header className="sticky top-0 z-45 w-full border-b border-gray-100 dark:border-zinc-900/60 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+              
+              {/* Brand Logo */}
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center p-1.5 shadow-xs">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Telkomsel_2021_icon.svg" 
+                    alt="Telkomsel Logo" 
+                    className="w-full h-full object-contain invert brightness-0"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white uppercase">
+                    Grapari Garuda
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-mono tracking-wider -mt-0.5">SURABAYA</span>
+                </div>
+              </div>
+
+              {/* Navigation center links */}
+              <nav className="hidden md:flex items-center gap-8">
+                <a href="#fitur" className="text-xs font-semibold text-gray-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+                  Fitur Utama
+                </a>
+                <a href="#sop" className="text-xs font-semibold text-gray-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+                  SOP & FAQ
+                </a>
+                <a href="#eform" className="text-xs font-semibold text-gray-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+                  E-Form Digital
+                </a>
+                <a href="#ai" className="text-xs font-semibold text-gray-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+                  Asisten AI
+                </a>
+              </nav>
+
+              {/* Header Actions */}
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="text-xs font-semibold text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white cursor-pointer transition-colors"
+                >
+                  Sign In
+                </button>
+                <button 
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="bg-slate-950 hover:bg-slate-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-slate-950 text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer shadow-xs transition-all"
+                >
+                  Get Started
+                </button>
+              </div>
+
+            </div>
+          </header>
+
+          {/* Hero Section */}
+          <section className="relative pt-20 pb-16 sm:pt-28 sm:pb-24 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
             
-            {/* Logo and Greeting */}
-            <div className="mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-900 border border-red-500/10 dark:border-red-500/20 flex items-center justify-center p-2.5 shadow-lg mx-auto mb-4">
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Telkomsel_2021_icon.svg" 
-                  alt="Telkomsel Logo" 
-                  className="w-full h-full object-contain"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <h1 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white uppercase font-sans">
-                Grapari Garuda
-              </h1>
-              <p className="text-xs text-gray-400 mt-1">Dashboard Pencapaian & Monitoring Terpadu</p>
+            {/* New Announcement Pill Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-850 mb-8 animate-fade-in text-[11px] text-slate-600 dark:text-zinc-400">
+              <span className="flex h-1.5 w-1.5 relative shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500"></span>
+              </span>
+              <span className="font-bold text-slate-800 dark:text-zinc-200">New:</span>
+              <span>AI-powered Knowledge Base & SOPs</span>
             </div>
 
-            {/* Creds Form */}
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
-              {authError && (
-                <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-500/10 text-red-600 dark:text-red-400 text-xs rounded-xl font-medium text-left">
-                  {authError}
-                </div>
-              )}
+            {/* Massive Display Title */}
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-950 dark:text-white max-w-4xl leading-[1.1] font-sans">
+              Build consistent service <br className="hidden sm:block" />
+              <span className="text-gray-400 dark:text-gray-500">systems at scale.</span>
+            </h1>
 
-              <div>
-                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider text-left mb-1.5">Username</label>
-                <div className="relative">
-                  <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
-                  <input
-                    id="input-login-username"
-                    type="text"
-                    required
-                    value={usernameInput}
-                    onChange={(e) => setUsernameInput(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-100 dark:border-zinc-800/80 rounded-xl text-xs bg-white/40 dark:bg-zinc-900/40 focus:ring-1 focus:ring-red-500 outline-none"
-                    placeholder="Masukkan username Anda..."
-                  />
-                </div>
-              </div>
+            {/* Premium subtitle */}
+            <p className="mt-6 text-sm sm:text-base text-gray-500 dark:text-zinc-400 max-w-2xl leading-relaxed">
+              Sistem operasional terpadu Grapari Garuda Surabaya. Kelola KPI kinerja secara real-time, 
+              otomatisasi pembuatan e-form PSB Halo & IndiHome, dan percepat resolusi gangguan pelanggan dengan asisten AI.
+            </p>
 
-              <div>
-                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider text-left mb-1.5">Password</label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
-                  <input
-                    id="input-login-password"
-                    type="password"
-                    required
-                    value={passwordInput}
-                    onChange={(e) => setPasswordInput(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-100 dark:border-zinc-800/80 rounded-xl text-xs bg-white/40 dark:bg-zinc-900/40 focus:ring-1 focus:ring-red-500 outline-none"
-                    placeholder="Masukkan password Anda..."
-                  />
-                </div>
-              </div>
-
-              <button
-                id="btn-login-submit"
-                type="submit"
-                disabled={authLoading}
-                className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-xs font-semibold text-white rounded-xl cursor-pointer shadow-md flex items-center justify-center gap-2 transition-all"
+            {/* Dual CTA buttons */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
+              <button 
+                onClick={() => setIsLoginModalOpen(true)}
+                className="w-full sm:w-auto px-6 py-3 bg-slate-950 hover:bg-slate-850 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-slate-950 text-xs font-semibold rounded-full shadow-md flex items-center justify-center gap-1.5 group cursor-pointer transition-all"
               >
-                {authLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Memverifikasi Sesi...</span>
-                  </>
-                ) : (
-                  <span>Masuk Sesi Grapari</span>
-                )}
+                <span>Mulai Sesi Cepat</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </button>
-            </form>
-
-            {/* Quick Evaluation Role play helper buttons */}
-            <div className="mt-8 border-t border-gray-100 dark:border-zinc-900/60 pt-5 space-y-3.5">
-              <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-red-500 uppercase">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Evaluator One-Click Simulators</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <button 
-                  id="btn-quick-login-admin"
-                  onClick={() => handleQuickLogin('Admin')} 
-                  className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer"
-                >
-                  👑 Login Admin
-                </button>
-                <button 
-                  id="btn-quick-login-leader"
-                  onClick={() => handleQuickLogin('Team Leader')} 
-                  className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer"
-                >
-                  👔 Login TL
-                </button>
-                <button 
-                  id="btn-quick-login-cs"
-                  onClick={() => handleQuickLogin('Customer Service')} 
-                  className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer"
-                >
-                  🎧 Login CS
-                </button>
-                <button 
-                  id="btn-quick-login-fos"
-                  onClick={() => handleQuickLogin('FOS')} 
-                  className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer"
-                >
-                  🔧 Login FOS
-                </button>
-              </div>
+              <button 
+                onClick={() => {
+                  const el = document.getElementById('fitur');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 text-xs font-semibold rounded-full hover:bg-gray-50 dark:hover:bg-zinc-800/50 flex items-center justify-center gap-1.5 cursor-pointer transition-all"
+              >
+                <span>Pelajari Fitur</span>
+              </button>
             </div>
 
-          </div>
+            {/* Stats Dashboard Preview Section (Aesthetic Minimal Blocks) */}
+            <div id="fitur" className="mt-20 sm:mt-28 w-full grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+              
+              <div className="p-6 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-900/80 shadow-xs flex flex-col justify-between min-h-[160px] transition-all hover:border-red-500/20">
+                <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/10 flex items-center justify-center text-red-600 dark:text-red-400 mb-4">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-1">KPI & Pencapaian</h3>
+                  <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed">
+                    Sinkronisasi berkala data KPI CS & FOS langsung dari Google Sheets. Evaluasi skor secara objektif & transparan.
+                  </p>
+                </div>
+              </div>
+
+              <div id="sop" className="p-6 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-900/80 shadow-xs flex flex-col justify-between min-h-[160px] transition-all hover:border-red-500/20">
+                <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/10 flex items-center justify-center text-red-600 dark:text-red-400 mb-4">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-1">Pusat Pengetahuan</h3>
+                  <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed">
+                    Akses SOP terstruktur, daftar FAQ terupdate, dan draf skrip CS untuk berbagai jenis skenario penawaran.
+                  </p>
+                </div>
+              </div>
+
+              <div id="eform" className="p-6 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-gray-200/50 dark:border-zinc-900/80 shadow-xs flex flex-col justify-between min-h-[160px] transition-all hover:border-red-500/20">
+                <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/10 flex items-center justify-center text-red-600 dark:text-red-400 mb-4">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-1">E-Form Otomatis</h3>
+                  <p className="text-xs text-gray-500 dark:text-zinc-400 leading-relaxed">
+                    Generator surat pernyataan migrasi PSB Halo, aktivasi baru PSB IndiHome, terminasi layanan, dan ganti kartu instan.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* Footer of Landing Page */}
+          <footer className="mt-20 border-t border-gray-100 dark:border-zinc-900 py-10 px-6 max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-400 font-mono">
+            <div>
+              © {new Date().getFullYear()} Grapari Garuda Surabaya. Seluruh Hak Cipta Dilindungi.
+            </div>
+            <div className="flex gap-6 mt-4 sm:mt-0">
+              <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">Syarat Layanan</a>
+              <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">Kebijakan Privasi</a>
+              <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">Panduan Grapari</a>
+            </div>
+          </footer>
+
+          {/* INTERACTIVE FLOATING LOGIN MODAL */}
+          {isLoginModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              {/* Dark backdrop overlay with blur */}
+              <div 
+                className="absolute inset-0 bg-zinc-950/45 dark:bg-zinc-950/70 backdrop-blur-xs transition-opacity"
+                onClick={() => setIsLoginModalOpen(false)}
+              />
+              
+              {/* Modal Box */}
+              <div className="relative w-full max-w-md bg-white dark:bg-zinc-950 rounded-2xl border border-gray-150 dark:border-zinc-900 p-8 shadow-2xl z-10 animate-fade-in text-center">
+                
+                {/* Close Button */}
+                <button 
+                  onClick={() => setIsLoginModalOpen(false)}
+                  className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-slate-900 dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+
+                {/* Logo and Greeting */}
+                <div className="mb-6 mt-2">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-zinc-900 border border-red-500/10 dark:border-red-500/20 flex items-center justify-center p-2.5 shadow-xs mx-auto mb-3">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Telkomsel_2021_icon.svg" 
+                      alt="Telkomsel Logo" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <h2 className="text-base font-bold tracking-tight text-gray-900 dark:text-white uppercase">
+                    Masuk Grapari Garuda
+                  </h2>
+                  <p className="text-[11px] text-gray-400 mt-0.5">Masukkan kredensial Anda untuk mengakses sistem</p>
+                </div>
+
+                {/* Creds Form */}
+                <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  {authError && (
+                    <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-500/10 text-red-600 dark:text-red-400 text-xs rounded-xl font-medium text-left">
+                      {authError}
+                    </div>
+                  )}
+
+                  <div className="text-left">
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Username</label>
+                    <div className="relative">
+                      <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
+                      <input
+                        id="input-login-username"
+                        type="text"
+                        required
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-white/40 dark:bg-zinc-900/40 focus:ring-1 focus:ring-red-500 outline-none text-slate-800 dark:text-white"
+                        placeholder="Masukkan username..."
+                      />
+                    </div>
+                  </div>
+
+                  <div className="text-left">
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Password</label>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
+                      <input
+                        id="input-login-password"
+                        type="password"
+                        required
+                        value={passwordInput}
+                        onChange={(e) => setPasswordInput(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-white/40 dark:bg-zinc-900/40 focus:ring-1 focus:ring-red-500 outline-none text-slate-800 dark:text-white"
+                        placeholder="Masukkan password..."
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    id="btn-login-submit"
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-gray-100 text-xs font-semibold text-white dark:text-slate-950 rounded-xl cursor-pointer shadow-md flex items-center justify-center gap-2 transition-all"
+                  >
+                    {authLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Memverifikasi Sesi...</span>
+                      </>
+                    ) : (
+                      <span>Masuk Sesi Grapari</span>
+                    )}
+                  </button>
+                </form>
+
+                {/* Quick Evaluation One-Click Simulators */}
+                <div className="mt-6 border-t border-gray-100 dark:border-zinc-900 pt-5 space-y-3">
+                  <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase">
+                    <Sparkles className="w-3.5 h-3.5 text-yellow-500 animate-pulse" />
+                    <span>Evaluator One-Click Simulators</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button 
+                      id="btn-quick-login-admin"
+                      onClick={() => handleQuickLogin('Admin')} 
+                      className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-700 dark:text-zinc-300 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer transition-colors"
+                    >
+                      👑 Admin
+                    </button>
+                    <button 
+                      id="btn-quick-login-leader"
+                      onClick={() => handleQuickLogin('Team Leader')} 
+                      className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-700 dark:text-zinc-300 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer transition-colors"
+                    >
+                      👔 Team Leader
+                    </button>
+                    <button 
+                      id="btn-quick-login-cs"
+                      onClick={() => handleQuickLogin('Customer Service')} 
+                      className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-700 dark:text-zinc-300 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer transition-colors"
+                    >
+                      🎧 CS Agent
+                    </button>
+                    <button 
+                      id="btn-quick-login-fos"
+                      onClick={() => handleQuickLogin('FOS')} 
+                      className="px-3 py-2 bg-slate-50 dark:bg-zinc-900 text-[10px] font-bold hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-700 dark:text-zinc-300 rounded-xl border border-gray-200/50 dark:border-zinc-800/50 cursor-pointer transition-colors"
+                    >
+                      🔧 FOS Staff
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
         </div>
       ) : (
         
         /* AUTHENTICATED SYSTEM MAIN LAYOUT */
-        <div className="min-h-screen flex">
+        <div className="min-h-screen flex bg-[#fafafa] dark:bg-zinc-950">
           
           {/* Sticky Apple Sidebar */}
           <Sidebar 
