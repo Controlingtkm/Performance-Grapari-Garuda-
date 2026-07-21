@@ -29,6 +29,7 @@ import TemplateCenterView from './components/TemplateCenterView';
 import KnowledgeCenterView from './components/KnowledgeCenterView';
 import PerformanceCenterView from './components/PerformanceCenterView';
 import SettingsView from './components/SettingsView';
+import AiAssistantView from './components/AiAssistantView';
 import yuniselPhoto from './assets/images/yunisel_avatar_1784641085038.jpg';
 
 import { apiService } from './services/api';
@@ -946,6 +947,7 @@ export default function App() {
               knowledgeData={initialKnowledge}
               user={currentUser ? { ...currentUser, photo: currentUser.username === 'leader' || currentUser.name === 'Yunisel Rachmil' ? yuniselPhoto : currentUser.photo } : null}
               onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+              onLogout={handleLogout}
             />
 
             {/* Inner Content Area */}
@@ -1031,6 +1033,12 @@ export default function App() {
                 <PerformanceCenterView 
                   kpiCs={kpiCs}
                   kpiFos={kpiFos}
+                />
+              )}
+
+              {currentTab === 'asisten-ai' && (
+                <AiAssistantView 
+                  userRole={currentUser?.role || 'Customer Service'}
                 />
               )}
 

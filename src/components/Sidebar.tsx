@@ -61,9 +61,9 @@ export default function Sidebar({ currentTab, setCurrentTab, user, onLogout, com
         />
       )}
 
-       <aside className={`w-68 shrink-0 h-screen flex flex-col border-r border-gray-200/60 dark:border-gray-800/60 bg-white dark:bg-zinc-950/95 md:bg-white/70 md:dark:bg-zinc-950/70 md:backdrop-blur-md transition-all duration-300 z-50 
+       <aside className={`w-68 shrink-0 h-screen flex flex-col border-r border-gray-200/60 dark:border-gray-800/60 bg-white dark:bg-zinc-950/95 transition-all duration-300 z-50 
          ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-         md:translate-x-0 md:sticky fixed inset-y-0 left-0`}>
+         md:hidden fixed inset-y-0 left-0`}>
         {/* Brand Header */}
         <div className="p-6 border-b border-gray-100 dark:border-gray-900 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
