@@ -361,8 +361,10 @@ export default function DashboardView({
                 <div className="p-3.5 bg-slate-50/50 dark:bg-zinc-950/40 border border-gray-150 dark:border-zinc-900 rounded-xl flex items-center justify-between transition-colors hover:bg-slate-50 dark:hover:bg-zinc-950">
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <img src={topCs.photo} alt={topCs.name} className="w-10 h-10 rounded-full object-cover border border-red-500/20" />
-                      <span className="absolute -bottom-1 -right-1 bg-red-600 text-white text-[8px] px-1 rounded-full font-bold scale-90">CS</span>
+                      <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-950/60 border border-red-500/20 flex items-center justify-center font-bold text-red-600 dark:text-red-400 text-xs shrink-0">
+                        CS
+                      </div>
+                      <span className="absolute -bottom-1 -right-1 bg-red-600 text-white text-[8px] px-1 rounded-full font-bold scale-90">#1</span>
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-900 dark:text-white">{topCs.name}</h4>

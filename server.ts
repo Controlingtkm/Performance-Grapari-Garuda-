@@ -73,7 +73,7 @@ function readDb() {
       const data = fs.readFileSync(DATA_FILE, 'utf-8');
       dbState = JSON.parse(data);
       // Auto-migrate if data store contains outdated CSR records
-      if (dbState.kpi_cs && dbState.kpi_cs.some(r => r.name === 'Siti Rahma')) {
+      if (dbState.kpi_cs && dbState.kpi_cs.some(r => r.name === 'Siti Rahma' || r.productivity === 358 || r.photo !== '')) {
         dbState.kpi_cs = initialKpiCs;
         dbState.users = mockUsers;
         writeDb();

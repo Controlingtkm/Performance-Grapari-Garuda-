@@ -286,7 +286,7 @@ export default function KpiCsView({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `Performance_CSR_Grapari_Surabaya_Garuda_Juni_2026_${Date.now()}.csv`);
+    link.setAttribute("download", `Performance_CSR_Grapari_Surabaya_Garuda_Juli_2026_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -389,7 +389,7 @@ export default function KpiCsView({
               {/* Banner Title Header matching the uploaded Excel sheet */}
               <tr className="bg-gradient-to-r from-blue-700 via-sky-700 to-indigo-800 text-white font-black text-center tracking-wider">
                 <th colSpan={hasCrudPermission ? 16 : 15} className="py-3 px-4 text-xs uppercase shadow-xs">
-                  PERFORMANCE CSR GRAPARI SURABAYA GARUDA JUNI 2026
+                  PERFORMANCE CSR GRAPARI SURABAYA GARUDA JULI 2026
                 </th>
               </tr>
 
@@ -434,12 +434,9 @@ export default function KpiCsView({
                 <tr key={item.id} className="hover:bg-sky-50/20 dark:hover:bg-zinc-900/40 transition-colors">
                   {/* CSR Info */}
                   <td className="p-3 border-r border-gray-200 dark:border-zinc-800 font-sans">
-                    <div className="flex items-center gap-2.5">
-                      <img src={item.photo} alt={item.name} className="w-7 h-7 rounded-full border border-gray-200 dark:border-gray-800 object-cover shrink-0" />
-                      <div>
-                        <div className="font-bold text-slate-900 dark:text-white text-xs">{item.name}</div>
-                        <div className="text-[9px] text-slate-400 font-mono">{item.nik}</div>
-                      </div>
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white text-xs">{item.name}</div>
+                      <div className="text-[9px] text-slate-400 font-mono">{item.nik}</div>
                     </div>
                   </td>
 
