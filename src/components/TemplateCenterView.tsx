@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import jsPDF from 'jspdf';
 import { 
   FileText, 
   Search, 
@@ -138,6 +139,152 @@ Nama & NIK CS     : ${csInfo || '-'}
 Status BA         : ${baSubmitted ? '✅ TERVERIFIKASI & SUBMITTED' : '⏳ DRAFT / PENDING SUBMIT'}
 
 Dengan ini menyatakan bahwa permohonan Reaktivasi Prepaid Post Aging Quarantine telah melalui serangkaian verifikasi identitas dan validasi sistem yang sah di GraPARI Garuda.`;
+
+  const downloadBaPdf = () => {
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const msisdn = baMsisdn || '081234567890';
+    const name = (baNamaPelanggan || 'PELANGGAN').toUpperCase();
+    const nik = baNik || '-';
+    const ticket = baNomorTiket || `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+    const status = baStatusMsisdn || 'Post Aging Quarantine';
+    const csNameNik = csInfo || (user ? `${user.name} (${user.nik})` : 'Petugas CS GraPARI');
+    const dateStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    const baNo = `BA-TSEL/GR-GARUDA/${new Date().getFullYear()}/BA-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    // Header Red Banner / Title
+    doc.setFillColor(220, 38, 38); // Telkomsel Red #DC2626
+    doc.rect(0, 0, 210, 24, 'F');
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(15);
+    doc.text('TELKOMSEL - GRAPARI SURABAYA GARUDA', 14, 12);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('BERITA ACARA REAKTIVASI PREPAID POST AGING QUARANTINE', 14, 18);
+
+    // Document Meta Information
+    doc.setTextColor(30, 41, 59);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('BERITA ACARA REAKTIVASI NOMOR PREPAID', 14, 34);
+    
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Nomor BA : ${baNo}`, 14, 40);
+    doc.text(`Tanggal  : ${dateStr}`, 14, 45);
+    doc.text(`Lokasi   : GraPARI Telkomsel Surabaya Garuda`, 14, 50);
+
+    // Divider Line
+    doc.setDrawColor(226, 232, 240);
+    doc.line(14, 54, 196, 54);
+
+    // Section 1: Data Pelanggan
+    doc.setFillColor(248, 250, 252);
+    doc.rect(14, 58, 182, 7, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(220, 38, 38);
+    doc.text('1. DATA NOMOR & PELANGGAN', 17, 63);
+
+    doc.setTextColor(30, 41, 59);
+    doc.setFont('helvetica', 'normal');
+    let y = 72;
+    const items = [
+      ['MSISDN / Nomor Telkomsel', `: ${msisdn}`],
+      ['Status MSISDN', `: ${status}`],
+      ['Nama Pelanggan', `: ${name}`],
+      ['Nomor NIK Pelanggan', `: ${nik}`],
+      ['Nomor ID Tiket', `: ${ticket}`]
+    ];
+
+    items.forEach(([label, val]) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(label, 18, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(val, 80, y);
+      y += 6;
+    });
+
+    // Section 2: Dokumen Pendukung (Verifikasi)
+    y += 4;
+    doc.setFillColor(248, 250, 252);
+    doc.rect(14, y, 182, 7, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(220, 38, 38);
+    doc.text('2. DOKUMEN PENDUKUNG (VERIFIKASI SISTEM & FISIK)', 17, y + 5);
+
+    y += 12;
+    const docs = [
+      ['KTP Fisik', baFileKtp ? `Terlampir (${baFileKtp.name})` : 'Terlampir / Valid'],
+      ['Scan KTP Reader', baFileScanKtpReader ? `Terlampir (${baFileScanKtpReader.name})` : 'Terlampir / Valid'],
+      ['Aplikasi OTT 1', baFileOtt1 ? `Terlampir (${baFileOtt1.name})` : 'Terlampir / Valid'],
+      ['SIMcard / QR Code', baFileSimcardQr ? `Terlampir (${baFileSimcardQr.name})` : 'Terlampir / Valid'],
+      ['Form Layanan Pelanggan (PDF)', baFileFormLayanan ? `Terlampir (${baFileFormLayanan.name})` : 'Terlampir / Valid']
+    ];
+
+    docs.forEach(([docLabel, docStatus]) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(`• ${docLabel}`, 18, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`: [ OK ] ${docStatus}`, 80, y);
+      y += 6;
+    });
+
+    // Section 3: Status & Legal Statement
+    y += 6;
+    doc.setFillColor(254, 243, 199); // Light amber
+    doc.rect(14, y, 182, 20, 'F');
+    doc.setDrawColor(245, 158, 11);
+    doc.rect(14, y, 182, 20, 'S');
+
+    doc.setFontSize(8.5);
+    doc.setTextColor(146, 64, 14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Pernyataan & Pengesahan:', 18, y + 6);
+    doc.setFont('helvetica', 'normal');
+    doc.text(
+      'Dengan ini menyatakan bahwa permohonan Reaktivasi Prepaid Post Aging Quarantine telah melalui',
+      18, y + 11
+    );
+    doc.text(
+      'serangkaian verifikasi identitas fisik, prapembayaran, serta validasi sistem yang sah di GraPARI Garuda.',
+      18, y + 16
+    );
+
+    // Signatures Section
+    y += 32;
+    doc.setTextColor(30, 41, 59);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    
+    doc.text('Pelanggan,', 25, y);
+    doc.text('Petugas Customer Service,', 82, y);
+    doc.text('Supervisor GraPARI,', 145, y);
+
+    y += 24;
+    doc.setFont('helvetica', 'bold');
+    doc.text(name, 25, y);
+    doc.text(csNameNik, 82, y);
+    doc.text('GraPARI Garuda', 145, y);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text('(Tanda Tangan & Nama)', 25, y + 4);
+    doc.text('(Tanda Tangan & NIK CS)', 82, y + 4);
+    doc.text('(Stempel & Pengesahan)', 145, y + 4);
+
+    // Footer
+    doc.setFontSize(7);
+    doc.setTextColor(148, 163, 184);
+    doc.text(`Dokumen ini dicetak secara resmi oleh E-Form Digital System GraPARI Telkomsel Surabaya Garuda | ${new Date().toLocaleString('id-ID')}`, 14, 285);
+
+    doc.save(`BA_Reaktivasi_Prepaid_${msisdn}_${Date.now()}.pdf`);
+  };
 
   const compiledStandard = `LAPORAN TIKET ADUAN GRAPARI GARUDA
 ----------------------------------
@@ -726,15 +873,42 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
                   </div>
                 </div>
 
-                {/* Submit button (bright green like in screenshot) */}
-                <div className="pt-2">
+                {/* Submit button & Success PDF option */}
+                <div className="pt-2 space-y-3">
                   <button
                     type="submit"
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg text-xs shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     <Check className="w-4 h-4" />
-                    <span>Submit</span>
+                    <span>Submit Berita Acara</span>
                   </button>
+
+                  {baSubmitted && (
+                    <div className="p-3 bg-emerald-500/10 dark:bg-emerald-950/40 border border-emerald-500/30 rounded-xl space-y-2.5 animate-fadeIn">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300 font-bold text-xs">
+                          <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                          <span>Berita Acara Berhasil Di-Submit!</span>
+                        </div>
+                        <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded">
+                          TERVERIFIKASI
+                        </span>
+                      </div>
+
+                      <p className="text-[11px] text-gray-600 dark:text-gray-300 leading-snug">
+                        Form Reaktivasi MSISDN <strong>{baMsisdn || '-'}</strong> (a.n <strong>{baNamaPelanggan || '-'}</strong>) telah lengkap disubmit. Silakan unduh dokumen Berita Acara resmi (PDF) di bawah ini:
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={downloadBaPdf}
+                        className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs shadow-md cursor-pointer transition-all active:scale-[0.98]"
+                      >
+                        <FileDown className="w-4 h-4" />
+                        <span>Download Berita Acara (PDF)</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </form>
             )}
@@ -1155,7 +1329,18 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
               </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 space-y-2">
+              {activeFormTab === 'ba_reaktivasi' && (
+                <button
+                  type="button"
+                  onClick={downloadBaPdf}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-md transition-all cursor-pointer active:scale-[0.98]"
+                >
+                  <FileDown className="w-4 h-4" />
+                  <span>Download Berita Acara (PDF)</span>
+                </button>
+              )}
+
               <button
                 type="button"
                 onClick={copyActiveForm}
