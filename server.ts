@@ -72,6 +72,12 @@ function readDb() {
     if (fs.existsSync(DATA_FILE)) {
       const data = fs.readFileSync(DATA_FILE, 'utf-8');
       dbState = JSON.parse(data);
+      // Auto-migrate if data store contains outdated CSR records
+      if (dbState.kpi_cs && dbState.kpi_cs.some(r => r.name === 'Siti Rahma')) {
+        dbState.kpi_cs = initialKpiCs;
+        dbState.users = mockUsers;
+        writeDb();
+      }
     } else {
       writeDb();
     }
@@ -395,8 +401,8 @@ async function startServer() {
           id,
           type: record.type || 'Indihome',
           customerName: record.customerName || 'Customer',
-          csName: record.csName || 'Siti Rahma',
-          nik: record.nik || 'GG-00511',
+          csName: record.csName || 'NAFA LAILA WAHIDAH',
+          nik: record.nik || 'GG-00501',
           msisdn: record.msisdn || '0811000000',
           indihomeNumber: record.indihomeNumber || '-',
           complaint: record.complaint || 'No detail provided',

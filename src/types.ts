@@ -24,6 +24,19 @@ export interface KpiCsRecord {
   progress: number; // e.g. % of monthly target reached
   target: number; // numeric target
   status: 'Excellent' | 'Good' | 'Needs Improvement' | 'Critical';
+  // Detailed CSR performance fields from Performance CSR Grapari Surabaya Garuda Juni 2026 spreadsheet:
+  haloSales?: number;
+  indihomeSales?: number;
+  orbitSales?: number;
+  fivasSales?: number;
+  promotor?: number;
+  passiver?: number;
+  detractor?: number;
+  tnpsScore?: number;
+  doIh?: number;
+  retensiIh?: number;
+  rrFix?: number;
+  mobileChurnPrev?: number;
 }
 
 export interface KpiFosRecord {

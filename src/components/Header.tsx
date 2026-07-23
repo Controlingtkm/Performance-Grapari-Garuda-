@@ -204,7 +204,7 @@ export default function Header({
 
   // Static/Mock notifications matching requested notifications
   const notifications = [
-    { id: 1, type: 'achievement', title: 'Achievement Updated', desc: 'Siti Rahma achieved 98.4% score!', time: '5m ago', read: false },
+    { id: 1, type: 'achievement', title: 'Achievement Updated', desc: 'NAFA LAILA WAHIDAH achieved 98.5% score!', time: '5m ago', read: false },
     { id: 2, type: 'due', title: 'Monitoring Due', desc: 'Ticket TS-2026-101 requires verification in 30m.', time: '12m ago', read: false },
     { id: 3, type: 'sla', title: 'SLA Warning', desc: 'Ticket TS-2026-102 is currently over-due by 2h.', time: '1h ago', read: true },
     { id: 4, type: 'upload', title: 'Success Upload Excel', desc: 'CS KPI parsed successfully. 6 records synchronized.', time: '2h ago', read: true },

@@ -42,7 +42,7 @@ export default function TemplateCenterView({
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateRecord | null>(null);
 
   // Form Generator Tab
-  const [activeFormTab, setActiveFormTab] = useState<'keluhan' | 'ganti_paket' | 'ganti_kartu' | 'halo' | 'indihome' | 'terminasi'>('ganti_paket');
+  const [activeFormTab, setActiveFormTab] = useState<'ba_reaktivasi' | 'keluhan' | 'ganti_paket' | 'ganti_kartu' | 'halo' | 'indihome' | 'terminasi'>('ba_reaktivasi');
 
   // Unified Copy feedback
   const [formCopied, setFormCopied] = useState(false);
@@ -91,11 +91,53 @@ export default function TemplateCenterView({
   const [termTanggal, setTermTanggal] = useState('');
   const [termSisaTagihan, setTermSisaTagihan] = useState('');
 
+  // 7. BA Reaktivasi Prepaid Post Aging Quarantine States
+  const [baMsisdn, setBaMsisdn] = useState('');
+  const [baStatusMsisdn, setBaStatusMsisdn] = useState('');
+  const [baNamaPelanggan, setBaNamaPelanggan] = useState('');
+  const [baNik, setBaNik] = useState('');
+  const [baNomorTiket, setBaNomorTiket] = useState('');
+  const [baFileKtp, setBaFileKtp] = useState<File | null>(null);
+  const [baFileScanKtpReader, setBaFileScanKtpReader] = useState<File | null>(null);
+  const [baFileOtt1, setBaFileOtt1] = useState<File | null>(null);
+  const [baFileSimcardQr, setBaFileSimcardQr] = useState<File | null>(null);
+  const [baFileFormLayanan, setBaFileFormLayanan] = useState<File | null>(null);
+  const [baSubmitted, setBaSubmitted] = useState(false);
+
   React.useEffect(() => {
     if (user) {
       setCsInfo(`${user.name} (${user.nik})`);
     }
   }, [user]);
+
+  const compiledBaReaktivasi = `BA REAKTIVASI PREPAID POST AGING QUARANTINE
+==================================================
+Lokasi            : GraPARI Telkomsel Surabaya Garuda
+Tanggal BA        : ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+Nomor BA          : BA-TSEL/GR-GARUDA/${new Date().getFullYear()}/00${Math.floor(100 + Math.random() * 900)}
+
+DATA NOMOR & PELANGGAN:
+--------------------------------------------------
+MSISDN            : ${baMsisdn || '___________'}
+Status MSISDN     : ${baStatusMsisdn || 'Pilih Status'}
+Nama Pelanggan    : ${baNamaPelanggan.toUpperCase() || '___________'}
+NIK               : ${baNik || '___________'}
+Nomor ID Tiket    : ${baNomorTiket || '___________'}
+
+DOKUMEN PENDUKUNG (VERIFIKASI):
+--------------------------------------------------
+- KTP                 : ${baFileKtp ? `✅ Attached (${baFileKtp.name})` : '❌ Belum diunggah'}
+- Scan KTP Reader     : ${baFileScanKtpReader ? `✅ Attached (${baFileScanKtpReader.name})` : '❌ Belum diunggah'}
+- Aplikasi OTT 1      : ${baFileOtt1 ? `✅ Attached (${baFileOtt1.name})` : '❌ Belum diunggah'}
+- SIMcard | QR Code   : ${baFileSimcardQr ? `✅ Attached (${baFileSimcardQr.name})` : '❌ Belum diunggah'}
+- Form Layanan (PDF)  : ${baFileFormLayanan ? `✅ Attached (${baFileFormLayanan.name})` : '❌ Belum diunggah'}
+
+PETUGAS CUSTOMER SERVICE:
+--------------------------------------------------
+Nama & NIK CS     : ${csInfo || '-'}
+Status BA         : ${baSubmitted ? '✅ TERVERIFIKASI & SUBMITTED' : '⏳ DRAFT / PENDING SUBMIT'}
+
+Dengan ini menyatakan bahwa permohonan Reaktivasi Prepaid Post Aging Quarantine telah melalui serangkaian verifikasi identitas dan validasi sistem yang sah di GraPARI Garuda.`;
 
   const compiledStandard = `LAPORAN TIKET ADUAN GRAPARI GARUDA
 ----------------------------------
@@ -175,6 +217,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
 
   const getActiveCompiledText = () => {
     switch (activeFormTab) {
+      case 'ba_reaktivasi': return compiledBaReaktivasi;
       case 'keluhan': return compiledStandard;
       case 'ganti_paket': return compiledGantiPaket;
       case 'ganti_kartu': return compiledGantiKartu;
@@ -201,6 +244,11 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
     let categoryVal = 'Product Modification';
 
     switch (activeFormTab) {
+      case 'ba_reaktivasi':
+        customerNameVal = baNamaPelanggan || 'Pelanggan';
+        msisdnVal = baMsisdn || '';
+        categoryVal = 'Reaktivasi Prepaid';
+        break;
       case 'keluhan':
         customerNameVal = customerName || 'Pelanggan';
         msisdnVal = msisdn || '';
@@ -255,6 +303,19 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
 
   const resetActiveForm = () => {
     switch (activeFormTab) {
+      case 'ba_reaktivasi':
+        setBaMsisdn('');
+        setBaStatusMsisdn('');
+        setBaNamaPelanggan('');
+        setBaNik('');
+        setBaNomorTiket('');
+        setBaFileKtp(null);
+        setBaFileScanKtpReader(null);
+        setBaFileOtt1(null);
+        setBaFileSimcardQr(null);
+        setBaFileFormLayanan(null);
+        setBaSubmitted(false);
+        break;
       case 'keluhan':
         setCustomerName('');
         setMsisdn('');
@@ -426,6 +487,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
             </div>
             <div>
               <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                {activeFormTab === 'ba_reaktivasi' && 'BA Reaktivasi Prepaid Post Aging Quarantine'}
                 {activeFormTab === 'ganti_paket' && 'Eform Ganti Paket'}
                 {activeFormTab === 'ganti_kartu' && 'Eform Ganti Kartu Telkomsel'}
                 {activeFormTab === 'halo' && 'Eform Registrasi/Migrasi PSB Halo'}
@@ -434,6 +496,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
                 {activeFormTab === 'keluhan' && 'Generator Laporan Keluhan Pelanggan'}
               </h3>
               <p className="text-[11px] text-gray-400">
+                {activeFormTab === 'ba_reaktivasi' && 'Generator Berita Acara Reaktivasi nomor prepaid pasca kuarantin dan verifikasi dokumen pendukung'}
                 {activeFormTab === 'ganti_paket' && 'Generator pernyataan perubahan paket · otomatis update saat mengetik'}
                 {activeFormTab === 'ganti_kartu' && 'Generator pernyataan kepemilikan & ganti kartu fisik · otomatis update saat mengetik'}
                 {activeFormTab === 'halo' && 'Generator pernyataan migrasi/registrasi PSB Halo · otomatis update saat mengetik'}
@@ -457,6 +520,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
         {/* Tab Selection Row */}
         <div className="flex flex-wrap gap-2 mb-6">
           {[
+            { id: 'ba_reaktivasi', label: 'BA Reaktivasi Prepaid' },
             { id: 'ganti_paket', label: 'Ganti Paket' },
             { id: 'ganti_kartu', label: 'Ganti Kartu' },
             { id: 'halo', label: 'PSB Halo' },
@@ -489,11 +553,192 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
           <div className="space-y-4">
             <div className="flex items-center gap-2 pb-2 border-b border-gray-100 dark:border-zinc-900">
               <span className="text-[11px] font-bold text-red-500 uppercase tracking-widest">
-                Data Pelanggan
+                Data Pelanggan & Lampiran
               </span>
             </div>
 
             {/* Render fields dynamically based on activeFormTab */}
+            {activeFormTab === 'ba_reaktivasi' && (
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setBaSubmitted(true);
+                  setFormCopied(false);
+                }}
+                className="space-y-3 p-4 bg-amber-50/50 dark:bg-amber-950/10 rounded-2xl border border-amber-200/60 dark:border-amber-900/30"
+              >
+                <div className="text-sm font-bold text-gray-900 dark:text-white pb-1 border-b border-amber-200/50 dark:border-amber-900/40">
+                  BA Reaktivasi Prepaid Post Aging Quarantine
+                </div>
+
+                {/* MSISDN */}
+                <div>
+                  <label className="block text-[11px] font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    MSISDN:
+                  </label>
+                  <input 
+                    type="text"
+                    required
+                    value={baMsisdn}
+                    onChange={(e) => setBaMsisdn(e.target.value)}
+                    placeholder="Masukkan nomor MSISDN (contoh: 081234567890)"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-md outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+
+                {/* Status MSISDN */}
+                <div>
+                  <label className="block text-[11px] font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Status MSISDN:
+                  </label>
+                  <select
+                    value={baStatusMsisdn}
+                    onChange={(e) => setBaStatusMsisdn(e.target.value)}
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-md outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
+                  >
+                    <option value="">Pilih Status</option>
+                    <option value="Post Aging Quarantine">Post Aging Quarantine</option>
+                    <option value="Quarantined">Quarantined</option>
+                    <option value="Expired / Burned">Expired / Burned</option>
+                    <option value="Grace Period">Grace Period</option>
+                  </select>
+                </div>
+
+                {/* Nama Pelanggan */}
+                <div>
+                  <label className="block text-[11px] font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Nama Pelanggan:
+                  </label>
+                  <input 
+                    type="text"
+                    required
+                    value={baNamaPelanggan}
+                    onChange={(e) => setBaNamaPelanggan(e.target.value)}
+                    placeholder="Nama pelanggan sesuai KTP"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-md outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+
+                {/* NIK */}
+                <div>
+                  <label className="block text-[11px] font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    NIK:
+                  </label>
+                  <input 
+                    type="text"
+                    required
+                    value={baNik}
+                    onChange={(e) => setBaNik(e.target.value)}
+                    placeholder="16 digit NIK"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-md outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+
+                {/* Nomor ID Tiket */}
+                <div>
+                  <label className="block text-[11px] font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Nomor ID Tiket:
+                  </label>
+                  <input 
+                    type="text"
+                    value={baNomorTiket}
+                    onChange={(e) => setBaNomorTiket(e.target.value)}
+                    placeholder="Contoh: TKT-2026-88902"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-md outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+
+                {/* Upload Inputs with layout matching screenshot */}
+                <div className="space-y-2 pt-1">
+                  {/* KTP */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
+                    <label className="w-40 text-[11px] font-medium text-gray-700 dark:text-gray-300 shrink-0">
+                      KTP:
+                    </label>
+                    <div className="flex-1 flex items-center bg-amber-100/70 dark:bg-zinc-800 p-1 rounded border border-amber-300/80 dark:border-zinc-700">
+                      <input 
+                        type="file" 
+                        accept="image/*,.pdf"
+                        onChange={(e) => setBaFileKtp(e.target.files?.[0] || null)}
+                        className="w-full text-[10px] text-gray-600 dark:text-gray-300 file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-white file:text-gray-700 hover:file:bg-gray-100 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Scan KTP Reader */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
+                    <label className="w-40 text-[11px] font-medium text-gray-700 dark:text-gray-300 shrink-0">
+                      Scan KTP Reader:
+                    </label>
+                    <div className="flex-1 flex items-center bg-amber-100/70 dark:bg-zinc-800 p-1 rounded border border-amber-300/80 dark:border-zinc-700">
+                      <input 
+                        type="file" 
+                        accept="image/*,.pdf"
+                        onChange={(e) => setBaFileScanKtpReader(e.target.files?.[0] || null)}
+                        className="w-full text-[10px] text-gray-600 dark:text-gray-300 file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-white file:text-gray-700 hover:file:bg-gray-100 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Aplikasi OTT 1 */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
+                    <label className="w-40 text-[11px] font-medium text-gray-700 dark:text-gray-300 shrink-0">
+                      Aplikasi OTT 1:
+                    </label>
+                    <div className="flex-1 flex items-center bg-amber-100/70 dark:bg-zinc-800 p-1 rounded border border-amber-300/80 dark:border-zinc-700">
+                      <input 
+                        type="file" 
+                        accept="image/*,.pdf"
+                        onChange={(e) => setBaFileOtt1(e.target.files?.[0] || null)}
+                        className="w-full text-[10px] text-gray-600 dark:text-gray-300 file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-white file:text-gray-700 hover:file:bg-gray-100 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* SIMcard | QR Code */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
+                    <label className="w-40 text-[11px] font-medium text-gray-700 dark:text-gray-300 shrink-0">
+                      SIMcard | QR Code:
+                    </label>
+                    <div className="flex-1 flex items-center bg-amber-100/70 dark:bg-zinc-800 p-1 rounded border border-amber-300/80 dark:border-zinc-700">
+                      <input 
+                        type="file" 
+                        accept="image/*,.pdf"
+                        onChange={(e) => setBaFileSimcardQr(e.target.files?.[0] || null)}
+                        className="w-full text-[10px] text-gray-600 dark:text-gray-300 file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-white file:text-gray-700 hover:file:bg-gray-100 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Form Layanan Pelanggan (PDF) */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
+                    <label className="w-40 text-[11px] font-medium text-gray-700 dark:text-gray-300 shrink-0">
+                      Form Layanan Pelanggan (PDF):
+                    </label>
+                    <div className="flex-1 flex items-center bg-amber-100/70 dark:bg-zinc-800 p-1 rounded border border-amber-300/80 dark:border-zinc-700">
+                      <input 
+                        type="file" 
+                        accept="application/pdf,image/*"
+                        onChange={(e) => setBaFileFormLayanan(e.target.files?.[0] || null)}
+                        className="w-full text-[10px] text-gray-600 dark:text-gray-300 file:mr-2 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-white file:text-gray-700 hover:file:bg-gray-100 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit button (bright green like in screenshot) */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Submit</span>
+                  </button>
+                </div>
+              </form>
+            )}
+
             {activeFormTab === 'keluhan' && (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -503,7 +748,7 @@ Dibuat di Grapari Garuda pada tanggal ${new Date().toLocaleDateString('id-ID')}`
                       type="text"
                       value={csInfo}
                       onChange={(e) => setCsInfo(e.target.value)}
-                      placeholder="Contoh: Siti Rahma (GG-00511)"
+                      placeholder="Contoh: NAFA LAILA WAHIDAH (GG-00501)"
                       className="w-full px-3.5 py-2 text-xs border border-gray-200 dark:border-zinc-800 rounded-xl bg-white/40 dark:bg-zinc-900/40 outline-none focus:ring-1 focus:ring-red-500"
                     />
                   </div>

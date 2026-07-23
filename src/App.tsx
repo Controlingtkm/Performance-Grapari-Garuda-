@@ -164,7 +164,7 @@ export default function App() {
     const newLog: ActivityLog = {
       id: `log-${Date.now()}`,
       timestamp: new Date().toISOString(),
-      user: currentUser?.name || 'Siti Rahma',
+      user: currentUser?.name || 'NAFA LAILA WAHIDAH',
       role: currentUser?.role || 'Customer Service',
       action,
       details
@@ -203,9 +203,9 @@ export default function App() {
       id: 'user-cs',
       username: 'cs',
       role: 'Customer Service',
-      name: 'Siti Rahma',
-      nik: 'GG-00511',
-      photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200'
+      name: 'NAFA LAILA WAHIDAH',
+      nik: 'GG-00501',
+      photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200'
     };
 
     if (role === 'Admin') {
@@ -483,8 +483,8 @@ export default function App() {
       id: `mon-${Date.now()}`,
       type: record.type || 'Indihome',
       customerName: record.customerName || 'Pelanggan',
-      csName: currentUser?.name || 'Siti Rahma',
-      nik: currentUser?.nik || 'GG-00511',
+      csName: currentUser?.name || 'NAFA LAILA WAHIDAH',
+      nik: currentUser?.nik || 'GG-00501',
       msisdn: record.msisdn || '',
       indihomeNumber: record.indihomeNumber || '-',
       complaint: record.complaint || '',
@@ -917,10 +917,10 @@ export default function App() {
               setIsSidebarOpen(false); // Auto-close sidebar drawer on navigation
             }} 
             user={{
-              name: currentUser?.name || 'Siti Rahma',
+              name: currentUser?.name || 'NAFA LAILA WAHIDAH',
               role: currentUser?.role || 'Customer Service',
               photo: currentUser?.username === 'leader' || currentUser?.name === 'Yunisel Rachmil' ? yuniselPhoto : currentUser?.photo,
-              nik: currentUser?.nik || 'GG-00511'
+              nik: currentUser?.nik || 'GG-00501'
             }}
             onLogout={handleLogout}
             companyName="GRAPARI GARUDA"

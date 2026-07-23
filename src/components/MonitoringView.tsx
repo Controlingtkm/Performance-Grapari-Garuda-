@@ -47,8 +47,8 @@ export default function MonitoringView({
   // Form inputs
   const [formData, setFormData] = useState<Partial<MonitoringRecord>>({
     customerName: '',
-    csName: 'Siti Rahma',
-    nik: 'GG-00511',
+    csName: 'NAFA LAILA WAHIDAH',
+    nik: 'GG-00501',
     msisdn: '',
     indihomeNumber: '',
     complaint: '',

@@ -255,18 +255,29 @@ export default function KpiCsView({
 
   // Export to standard CSV that Excel/Sheets loads natively
   const exportToCSV = () => {
-    const headers = ['Name', 'NIK', 'Sales', 'Productivity', 'Attendance', 'Roleplay', 'Achievement', 'Target', 'Status', 'Notes'];
+    const headers = [
+      'Rank', 'Nama CSR', 'NIK', 'Halo (26)', 'IndiHome (20)', 'Orbit (2)', 'FIVAS (Rp)', 
+      'Productivity', 'Promotor', 'Passiver', 'Detractor', 'TNPS (%)', 
+      'DO IH (6)', 'Retensi IH', 'RR Fix (%)', 'Mobile Churn (%)', 'Catatan'
+    ];
     const rows = sortedData.map(item => [
-      item.name,
+      item.ranking,
+      `"${item.name}"`,
       item.nik,
-      item.sales,
+      item.haloSales ?? 0,
+      item.indihomeSales ?? 0,
+      item.orbitSales ?? 0,
+      item.fivasSales ?? 0,
       item.productivity,
-      item.attendance,
-      item.roleplay,
-      item.achievement,
-      item.target,
-      item.status,
-      item.notes.replace(/,/g, ' ')
+      item.promotor ?? 0,
+      item.passiver ?? 0,
+      item.detractor ?? 0,
+      `${item.tnpsScore ?? 100}%`,
+      item.doIh ?? 0,
+      item.retensiIh ?? 0,
+      `${item.rrFix ?? 0}%`,
+      `${item.mobileChurnPrev ?? 0}%`,
+      `"${(item.notes || '').replace(/"/g, '""')}"`
     ]);
 
     const csvContent = "data:text/csv;charset=utf-8," 
@@ -275,7 +286,7 @@ export default function KpiCsView({
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `kpi_cs_report_${Date.now()}.csv`);
+    link.setAttribute("download", `Performance_CSR_Grapari_Surabaya_Garuda_Juni_2026_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -373,102 +384,172 @@ export default function KpiCsView({
       {/* SPREADSHEET TABLE CARD */}
       <div className="apple-glass rounded-apple apple-shadow overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+          <table className="w-full text-left border-collapse text-xs border-b border-gray-200 dark:border-zinc-800">
             <thead>
-              <tr className="bg-gray-50/50 dark:bg-zinc-900/50 border-b border-gray-100 dark:border-gray-900 text-gray-400 uppercase font-mono tracking-wider text-[9px] select-none">
-                <th className="p-4 text-center">Rank</th>
-                <th className="p-4">Agen CS Details</th>
-                <th className="p-4 cursor-pointer hover:bg-gray-100/50 dark:hover:bg-zinc-800/50" onClick={() => handleSort('sales')}>Sales (Unit)</th>
-                <th className="p-4 cursor-pointer hover:bg-gray-100/50 dark:hover:bg-zinc-800/50" onClick={() => handleSort('productivity')}>Productivity</th>
-                <th className="p-4 cursor-pointer hover:bg-gray-100/50 dark:hover:bg-zinc-800/50" onClick={() => handleSort('attendance')}>Attendance</th>
-                <th className="p-4 cursor-pointer hover:bg-gray-100/50 dark:hover:bg-zinc-800/50" onClick={() => handleSort('roleplay')}>Roleplay</th>
-                <th className="p-4 cursor-pointer hover:bg-gray-100/50 dark:hover:bg-zinc-800/50" onClick={() => handleSort('achievement')}>Pencapaian (%)</th>
-                <th className="p-4">Progress Target</th>
-                <th className="p-4">Status</th>
-                {hasCrudPermission && <th className="p-4 text-right">Aksi</th>}
+              {/* Banner Title Header matching the uploaded Excel sheet */}
+              <tr className="bg-gradient-to-r from-blue-700 via-sky-700 to-indigo-800 text-white font-black text-center tracking-wider">
+                <th colSpan={hasCrudPermission ? 16 : 15} className="py-3 px-4 text-xs uppercase shadow-xs">
+                  PERFORMANCE CSR GRAPARI SURABAYA GARUDA JUNI 2026
+                </th>
+              </tr>
+
+              {/* Grouped Header Row */}
+              <tr className="bg-slate-100 dark:bg-zinc-900 text-slate-800 dark:text-zinc-200 text-[10px] uppercase tracking-wider font-extrabold border-b border-gray-200 dark:border-zinc-800 text-center select-none">
+                <th rowSpan={2} className="p-2.5 border-r border-gray-200 dark:border-zinc-800 min-w-[200px] text-left">NAMA CSR</th>
+                <th colSpan={4} className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-sky-100/80 dark:bg-sky-950/40 text-sky-900 dark:text-sky-300">
+                  TARGET SALES CUT OFF TGL 01-30
+                </th>
+                <th rowSpan={2} className="p-2.5 border-r border-gray-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900">PRODUCTIVITY</th>
+                <th colSpan={4} className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-emerald-100/80 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300">
+                  TNPS MOBILE CUT OFF TGL 01-30
+                </th>
+                <th colSpan={4} className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-amber-100/80 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300">
+                  CHURN PREVENTION CUT OFF TGL 01-30
+                </th>
+                <th rowSpan={2} className="p-2.5 border-r border-gray-200 dark:border-zinc-800 min-w-[60px]">RANK</th>
+                {hasCrudPermission && <th rowSpan={2} className="p-2.5 min-w-[70px]">AKSI</th>}
+              </tr>
+
+              {/* Sub Column Headers */}
+              <tr className="bg-slate-50 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 text-[9px] uppercase font-black tracking-tight border-b border-gray-200 dark:border-zinc-800 text-center select-none">
+                {/* Target Sales columns */}
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-sky-50 dark:bg-sky-950/20">HALO (26)</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-sky-50 dark:bg-sky-950/20">INDIHOME (20)</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-sky-50 dark:bg-sky-950/20">ORBIT (2)</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-sky-50 dark:bg-sky-950/20">FIVAS</th>
+                {/* TNPS Mobile columns */}
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400">PROMOTOR</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-emerald-50 dark:bg-emerald-950/20 text-amber-700 dark:text-amber-400">PASSIVER</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-emerald-50 dark:bg-emerald-950/20 text-rose-700 dark:text-rose-400">DETRACTOR</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-emerald-50 dark:bg-emerald-950/20 font-extrabold text-slate-900 dark:text-white">97%</th>
+                {/* Churn Prevention columns */}
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-amber-50 dark:bg-amber-950/20">DO IH (6)</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-amber-50 dark:bg-amber-950/20">RETENSI IH</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-amber-50 dark:bg-amber-950/20">RR FIX (75%)</th>
+                <th className="p-2 border-r border-gray-200 dark:border-zinc-800 bg-amber-50 dark:bg-amber-950/20">MOBILE (80%)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-900">
+            <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 font-mono text-[11px]">
               {paginatedData.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50/30 dark:hover:bg-zinc-900/20 transition-colors">
-                  {/* Rank */}
-                  <td className="p-4 text-center font-mono font-bold">
-                    {item.ranking === 1 ? (
-                      <span className="inline-flex w-5 h-5 items-center justify-center bg-amber-500 text-white rounded-full text-[10px]">1</span>
-                    ) : item.ranking === 2 ? (
-                      <span className="inline-flex w-5 h-5 items-center justify-center bg-slate-300 text-slate-800 rounded-full text-[10px]">2</span>
-                    ) : item.ranking === 3 ? (
-                      <span className="inline-flex w-5 h-5 items-center justify-center bg-amber-700/80 text-white rounded-full text-[10px]">3</span>
-                    ) : (
-                      <span>{item.ranking}</span>
-                    )}
-                  </td>
-                  
-                  {/* Avatar and Info */}
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <img src={item.photo} alt={item.name} className="w-8 h-8 rounded-full border border-gray-100 dark:border-gray-800 object-cover" />
+                <tr key={item.id} className="hover:bg-sky-50/20 dark:hover:bg-zinc-900/40 transition-colors">
+                  {/* CSR Info */}
+                  <td className="p-3 border-r border-gray-200 dark:border-zinc-800 font-sans">
+                    <div className="flex items-center gap-2.5">
+                      <img src={item.photo} alt={item.name} className="w-7 h-7 rounded-full border border-gray-200 dark:border-gray-800 object-cover shrink-0" />
                       <div>
-                        <div className="font-semibold text-gray-900 dark:text-white">{item.name}</div>
-                        <div className="text-[10px] text-gray-400 font-mono mt-0.5">{item.nik}</div>
+                        <div className="font-bold text-slate-900 dark:text-white text-xs">{item.name}</div>
+                        <div className="text-[9px] text-slate-400 font-mono">{item.nik}</div>
                       </div>
                     </div>
                   </td>
 
-                  {/* Quantitative Data */}
-                  <td className="p-4 font-semibold text-gray-950 dark:text-white font-mono">{item.sales} / {item.target}</td>
-                  <td className="p-4 font-mono">{item.productivity} Laporan</td>
-                  <td className="p-4 font-mono">{item.attendance}%</td>
-                  <td className="p-4 font-mono">{item.roleplay} / 100</td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-3.5 h-3.5 text-red-500" />
-                      <span className="font-bold text-gray-900 dark:text-white font-mono">{item.achievement}%</span>
-                    </div>
+                  {/* Target Sales: Halo */}
+                  <td className={`p-2.5 text-center font-bold border-r border-gray-200 dark:border-zinc-800 ${
+                    (item.haloSales ?? 0) < 26 ? 'text-red-600 dark:text-red-400 font-black' : 'text-slate-800 dark:text-slate-200'
+                  }`}>
+                    {item.haloSales ?? '-'}
                   </td>
 
-                  {/* Progress Bar */}
-                  <td className="p-4">
-                    <div className="w-28 space-y-1">
-                      <div className="flex justify-between text-[9px] text-gray-400">
-                        <span>{item.progress}% Reached</span>
-                      </div>
-                      <div className="w-full bg-gray-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-                        <div 
-                          className="bg-red-500 h-full rounded-full transition-all duration-300" 
-                          style={{ width: `${Math.min(item.progress, 100)}%` }} 
-                        />
-                      </div>
-                    </div>
+                  {/* Target Sales: IndiHome */}
+                  <td className={`p-2.5 text-center font-bold border-r border-gray-200 dark:border-zinc-800 ${
+                    (item.indihomeSales ?? 0) < 20 ? 'text-red-600 dark:text-red-400 font-black' : 'text-slate-800 dark:text-slate-200'
+                  }`}>
+                    {item.indihomeSales ?? '-'}
                   </td>
 
-                  {/* Status Indicator */}
-                  <td className="p-4">
-                    <span className={`inline-flex px-2 py-0.5 rounded-full font-semibold text-[10px] ${
-                      item.status === 'Excellent' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400' :
-                      item.status === 'Good' ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400' :
-                      item.status === 'Needs Improvement' ? 'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400' :
-                      'bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400'
-                    }`}>
-                      {item.status}
-                    </span>
+                  {/* Target Sales: Orbit */}
+                  <td className={`p-2.5 text-center font-bold border-r border-gray-200 dark:border-zinc-800 ${
+                    (item.orbitSales ?? 0) < 2 ? 'text-red-600 dark:text-red-400 font-black' : 'text-slate-800 dark:text-slate-200'
+                  }`}>
+                    {item.orbitSales ?? '-'}
+                  </td>
+
+                  {/* FIVAS */}
+                  <td className="p-2.5 text-right font-medium text-slate-800 dark:text-slate-200 border-r border-gray-200 dark:border-zinc-800 whitespace-nowrap">
+                    {item.fivasSales !== undefined ? `Rp ${item.fivasSales.toLocaleString('id-ID')}` : '-'}
+                  </td>
+
+                  {/* Productivity */}
+                  <td className={`p-2.5 text-center font-bold border-r border-gray-200 dark:border-zinc-800 ${
+                    item.productivity < 300 ? 'text-red-600 dark:text-red-400 font-black' : 'text-slate-900 dark:text-slate-100'
+                  }`}>
+                    {item.productivity}
+                  </td>
+
+                  {/* TNPS Mobile: Promotor */}
+                  <td className="p-2.5 text-center font-bold text-emerald-700 dark:text-emerald-400 border-r border-gray-200 dark:border-zinc-800">
+                    {item.promotor ?? '-'}
+                  </td>
+
+                  {/* TNPS Mobile: Passiver */}
+                  <td className="p-2.5 text-center font-medium text-amber-700 dark:text-amber-400 border-r border-gray-200 dark:border-zinc-800">
+                    {item.passiver ?? '-'}
+                  </td>
+
+                  {/* TNPS Mobile: Detractor */}
+                  <td className="p-2.5 text-center font-medium text-rose-700 dark:text-rose-400 border-r border-gray-200 dark:border-zinc-800">
+                    {item.detractor ?? '-'}
+                  </td>
+
+                  {/* TNPS % */}
+                  <td className={`p-2.5 text-center font-black border-r border-gray-200 dark:border-zinc-800 ${
+                    (item.tnpsScore ?? 100) >= 97 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {item.tnpsScore !== undefined ? `${item.tnpsScore}%` : '-'}
+                  </td>
+
+                  {/* Churn Prevention: DO IH */}
+                  <td className="p-2.5 text-center font-bold border-r border-gray-200 dark:border-zinc-800 text-slate-800 dark:text-slate-200">
+                    {item.doIh ?? '-'}
+                  </td>
+
+                  {/* Churn Prevention: Retensi IH */}
+                  <td className="p-2.5 text-center font-bold border-r border-gray-200 dark:border-zinc-800 text-slate-800 dark:text-slate-200">
+                    {item.retensiIh ?? '-'}
+                  </td>
+
+                  {/* Churn Prevention: RR FIX (75%) */}
+                  <td className={`p-2.5 text-center font-black border-r border-gray-200 dark:border-zinc-800 ${
+                    (item.rrFix ?? 100) >= 75 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {item.rrFix !== undefined ? `${item.rrFix}%` : '-'}
+                  </td>
+
+                  {/* Churn Prevention: Mobile (80%) */}
+                  <td className={`p-2.5 text-center font-black border-r border-gray-200 dark:border-zinc-800 ${
+                    (item.mobileChurnPrev ?? 100) >= 80 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {item.mobileChurnPrev !== undefined ? `${item.mobileChurnPrev}%` : '-'}
+                  </td>
+
+                  {/* Rank */}
+                  <td className="p-2.5 text-center font-black border-r border-gray-200 dark:border-zinc-800">
+                    {item.ranking === 1 ? (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-amber-500 text-white rounded-md text-xs font-black shadow-xs">1</span>
+                    ) : item.ranking === 2 ? (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-slate-300 text-slate-900 rounded-md text-xs font-black shadow-xs">2</span>
+                    ) : item.ranking === 3 ? (
+                      <span className="inline-flex w-6 h-6 items-center justify-center bg-amber-700 text-white rounded-md text-xs font-black shadow-xs">3</span>
+                    ) : (
+                      <span className="text-slate-700 dark:text-slate-300 font-bold">{item.ranking}</span>
+                    )}
                   </td>
 
                   {/* CRUD Operations */}
                   {hasCrudPermission && (
-                    <td className="p-4 text-right">
-                      <div className="flex justify-end gap-1.5">
+                    <td className="p-2.5 text-center font-sans">
+                      <div className="flex justify-center gap-1">
                         <button 
                           id={`btn-edit-kpi-cs-${item.id}`}
                           onClick={() => openEditModal(item)}
-                          className="p-1.5 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer"
+                          className="p-1 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded hover:bg-gray-100 dark:hover:bg-zinc-800 cursor-pointer"
                         >
                           <Edit className="w-3.5 h-3.5" />
                         </button>
                         <button 
                           id={`btn-delete-kpi-cs-${item.id}`}
                           onClick={() => onDeleteRecord(item.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/10 cursor-pointer"
+                          className="p-1 text-gray-400 hover:text-red-600 rounded hover:bg-red-50 dark:hover:bg-red-950/20 cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -480,7 +561,7 @@ export default function KpiCsView({
               ))}
               {paginatedData.length === 0 && (
                 <tr>
-                  <td colSpan={hasCrudPermission ? 10 : 9} className="p-8 text-center text-gray-400">
+                  <td colSpan={hasCrudPermission ? 16 : 15} className="p-8 text-center text-gray-400 font-sans">
                     Tidak ada data agen Customer Service.
                   </td>
                 </tr>
@@ -532,17 +613,17 @@ export default function KpiCsView({
               </button>
             </div>
 
-            <form onSubmit={showAddModal ? handleAddSubmit : handleEditSubmit} className="p-6 space-y-4">
+            <form onSubmit={showAddModal ? handleAddSubmit : handleEditSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Nama Agen</label>
+                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Nama Agen CSR</label>
                   <input
                     type="text"
                     required
-                    value={formData.name}
+                    value={formData.name || ''}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                    placeholder="Siti Rahma"
+                    placeholder="NAFA LAILA WAHIDAH"
                   />
                 </div>
                 <div>
@@ -550,75 +631,170 @@ export default function KpiCsView({
                   <input
                     type="text"
                     required
-                    value={formData.nik}
+                    value={formData.nik || ''}
                     onChange={(e) => setFormData({ ...formData, nik: e.target.value })}
                     className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                    placeholder="GG-00511"
+                    placeholder="GG-00501"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Sales (Unit)</label>
-                  <input
-                    type="number"
-                    value={formData.sales}
-                    onChange={(e) => setFormData({ ...formData, sales: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Target Sales</label>
-                  <input
-                    type="number"
-                    value={formData.target}
-                    onChange={(e) => setFormData({ ...formData, target: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Productivity</label>
-                  <input
-                    type="number"
-                    value={formData.productivity}
-                    onChange={(e) => setFormData({ ...formData, productivity: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                  />
+              {/* TARGET SALES CUT OFF */}
+              <div className="p-3 bg-sky-50/50 dark:bg-sky-950/20 rounded-xl space-y-2 border border-sky-100 dark:border-sky-900/30">
+                <span className="text-[10px] font-bold uppercase text-sky-700 dark:text-sky-300">Target Sales Cut Off Tgl 01-30</span>
+                <div className="grid grid-cols-4 gap-2">
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Halo (Target 26)</label>
+                    <input
+                      type="number"
+                      value={formData.haloSales ?? 0}
+                      onChange={(e) => setFormData({ ...formData, haloSales: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">IndiHome (20)</label>
+                    <input
+                      type="number"
+                      value={formData.indihomeSales ?? 0}
+                      onChange={(e) => setFormData({ ...formData, indihomeSales: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Orbit (2)</label>
+                    <input
+                      type="number"
+                      value={formData.orbitSales ?? 0}
+                      onChange={(e) => setFormData({ ...formData, orbitSales: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">FIVAS (Rp)</label>
+                    <input
+                      type="number"
+                      value={formData.fivasSales ?? 0}
+                      onChange={(e) => setFormData({ ...formData, fivasSales: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Attendance (%)</label>
-                  <input
-                    type="number"
-                    max="100"
-                    value={formData.attendance}
-                    onChange={(e) => setFormData({ ...formData, attendance: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                  />
+              {/* PRODUCTIVITY & TNPS */}
+              <div className="p-3 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-xl space-y-2 border border-emerald-100 dark:border-emerald-900/30">
+                <span className="text-[10px] font-bold uppercase text-emerald-700 dark:text-emerald-300">Productivity & TNPS Mobile</span>
+                <div className="grid grid-cols-5 gap-2">
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Productivity</label>
+                    <input
+                      type="number"
+                      value={formData.productivity ?? 300}
+                      onChange={(e) => setFormData({ ...formData, productivity: Number(e.target.value) })}
+                      className="w-full px-2 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Promotor</label>
+                    <input
+                      type="number"
+                      value={formData.promotor ?? 0}
+                      onChange={(e) => setFormData({ ...formData, promotor: Number(e.target.value) })}
+                      className="w-full px-2 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Passiver</label>
+                    <input
+                      type="number"
+                      value={formData.passiver ?? 0}
+                      onChange={(e) => setFormData({ ...formData, passiver: Number(e.target.value) })}
+                      className="w-full px-2 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Detractor</label>
+                    <input
+                      type="number"
+                      value={formData.detractor ?? 0}
+                      onChange={(e) => setFormData({ ...formData, detractor: Number(e.target.value) })}
+                      className="w-full px-2 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">TNPS (%)</label>
+                    <input
+                      type="number"
+                      value={formData.tnpsScore ?? 100}
+                      onChange={(e) => setFormData({ ...formData, tnpsScore: Number(e.target.value) })}
+                      className="w-full px-2 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Roleplay Audit Score</label>
-                  <input
-                    type="number"
-                    max="100"
-                    value={formData.roleplay}
-                    onChange={(e) => setFormData({ ...formData, roleplay: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                  />
+              </div>
+
+              {/* CHURN PREVENTION */}
+              <div className="p-3 bg-amber-50/50 dark:bg-amber-950/20 rounded-xl space-y-2 border border-amber-100 dark:border-amber-900/30">
+                <span className="text-[10px] font-bold uppercase text-amber-700 dark:text-amber-300">Churn Prevention Cut Off</span>
+                <div className="grid grid-cols-4 gap-2">
+                  <div>
+                    <label className="block text-[9px] text-gray-500">DO IH (6)</label>
+                    <input
+                      type="number"
+                      value={formData.doIh ?? 0}
+                      onChange={(e) => setFormData({ ...formData, doIh: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Retensi IH</label>
+                    <input
+                      type="number"
+                      value={formData.retensiIh ?? 0}
+                      onChange={(e) => setFormData({ ...formData, retensiIh: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">RR FIX (75%)</label>
+                    <input
+                      type="number"
+                      value={formData.rrFix ?? 100}
+                      onChange={(e) => setFormData({ ...formData, rrFix: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] text-gray-500">Mobile (80%)</label>
+                    <input
+                      type="number"
+                      value={formData.mobileChurnPrev ?? 100}
+                      onChange={(e) => setFormData({ ...formData, mobileChurnPrev: Number(e.target.value) })}
+                      className="w-full px-2.5 py-1.5 border border-gray-200 dark:border-zinc-800 rounded-lg text-xs bg-white dark:bg-zinc-900"
+                    />
+                  </div>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Rank CSR</label>
+                <input
+                  type="number"
+                  value={formData.ranking ?? 1}
+                  onChange={(e) => setFormData({ ...formData, ranking: Number(e.target.value) })}
+                  className="w-full px-3.5 py-2 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
+                />
               </div>
 
               <div>
                 <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1">Catatan Auditor / Supervisor</label>
                 <textarea
-                  value={formData.notes}
+                  value={formData.notes || ''}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   rows={2}
                   className="w-full p-3 border border-gray-200 dark:border-zinc-800 rounded-xl text-xs bg-transparent"
-                  placeholder="Komentar kepatuhan standard, inisiatif coaching..."
+                  placeholder="Komentar pencapaian, kualifikasi coaching..."
                 />
               </div>
 
@@ -689,7 +865,7 @@ export default function KpiCsView({
                   onChange={(e) => setPasteData(e.target.value)}
                   rows={4}
                   className="w-full p-3 font-mono border border-gray-200 dark:border-zinc-800 rounded-xl text-[10px] bg-transparent"
-                  placeholder={`Name\tNIK\tSales\tProductivity\tAttendance\tRoleplay\tTarget\tNotes&#10;Siti Rahma\tGG-00511\t145\t98\t100\t92\t150\tLuar biasa`}
+                  placeholder={`Name\tNIK\tSales\tProductivity\tAttendance\tRoleplay\tTarget\tNotes&#10;NAFA LAILA WAHIDAH\tGG-00501\t35\t358\t100\t95\t48\tLuar biasa`}
                 />
               </div>
 
